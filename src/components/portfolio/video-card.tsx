@@ -48,8 +48,8 @@ export function VideoCard({ src, aspect = "portrait", className = "" }: VideoCar
     return () => window.removeEventListener(MUTE_EVENT, onMuteAll);
   }, [src]);
 
-  const toggleMute = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const toggleMute = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
     const video = videoRef.current;
     if (!video) return;
     const next = !video.muted;
@@ -72,7 +72,8 @@ export function VideoCard({ src, aspect = "portrait", className = "" }: VideoCar
 
   return (
     <div
-      className={`group relative overflow-hidden rounded-2xl bg-[#15180f] shadow-md ring-1 ring-[#778667]/25 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:ring-[#778667]/60 ${className}`}
+      className={`group relative cursor-pointer overflow-hidden rounded-2xl bg-[#15180f] shadow-md ring-1 ring-[#778667]/25 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:ring-[#778667]/60 ${className}`}
+      onClick={() => toggleMute()}
     >
       <video
         ref={videoRef}
@@ -92,11 +93,21 @@ export function VideoCard({ src, aspect = "portrait", className = "" }: VideoCar
       <button
         type="button"
         aria-label={muted ? "Unmute video" : "Mute video"}
+        aria-pressed={!muted}
         onClick={toggleMute}
-        className="absolute bottom-3 right-3 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white opacity-0 backdrop-blur-sm transition-all duration-300 hover:bg-[#778667] focus:opacity-100 group-hover:opacity-100 sm:h-10 sm:w-10"
+        className={`absolute bottom-3 right-3 flex h-11 w-11 items-center justify-center rounded-full text-white shadow-md backdrop-blur-sm transition-all duration-300 hover:scale-110 sm:h-11 sm:w-11 ${
+          muted
+            ? "bg-black/60 hover:bg-[#778667]"
+            : "bg-[#778667] ring-2 ring-white/70 hover:bg-[#5f6d52]"
+        }`}
       >
-        {muted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+        {muted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
       </button>
+      {!muted && (
+        <span className="pointer-events-none absolute bottom-4 left-3 animate-pulse rounded-full bg-[#778667]/90 px-3 py-1 text-xs font-medium text-white shadow-sm">
+          Sound on
+        </span>
+      )}
       {!inView && (
         <div className="pointer-events-none absolute inset-0 bg-[#778667]/10 transition-opacity" />
       )}
