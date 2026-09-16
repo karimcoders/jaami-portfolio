@@ -26,8 +26,16 @@ export function Hero() {
         className="pointer-events-none absolute -right-24 bottom-0 h-80 w-80 rounded-full bg-[#778667]/20 blur-3xl"
       />
 
-      <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 py-16 sm:px-6 md:py-24 lg:grid-cols-2">
-        {/* Portrait */}
+      {/* giant ghost headline */}
+      <span
+        aria-hidden
+        className="font-display font-wonk text-outline-olive pointer-events-none absolute -bottom-4 left-1/2 -translate-x-1/2 select-none whitespace-nowrap text-[22vw] leading-none opacity-40"
+      >
+        PORTFOLIO
+      </span>
+
+      <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-4 py-14 sm:px-6 md:py-20 lg:grid-cols-2">
+        {/* Portrait — editorial arch frame */}
         <motion.div
           initial="hidden"
           animate="visible"
@@ -35,26 +43,29 @@ export function Hero() {
           transition={{ duration: 0.7, ease: "easeOut" }}
           className="relative mx-auto w-full max-w-sm lg:max-w-md"
         >
-          <div className="absolute inset-0 -z-10 translate-x-4 translate-y-4 rounded-full bg-[#778667]/25" />
-          <div className="overflow-hidden rounded-full border-8 border-[#778667] bg-[#778667]/20 shadow-xl">
+          <div className="absolute inset-0 -z-10 translate-x-4 translate-y-4 rounded-t-[14rem] rounded-b-[2rem] bg-[#778667]/25" />
+          <div className="overflow-hidden rounded-t-[14rem] rounded-b-[2rem] border-[10px] border-[#778667] bg-[#778667]/20 shadow-xl">
             <img
               src={PORTRAIT}
               alt="Portrait of JAAMI, creative video editor"
-              className="aspect-square w-full object-cover"
+              className="aspect-[4/5] w-full object-cover"
             />
           </div>
+          <span className="font-accent absolute -right-3 top-8 -rotate-90 text-lg italic text-[#5f6d52] sm:text-xl">
+            est. 2023
+          </span>
         </motion.div>
 
-        {/* Text */}
+        {/* Large typography block */}
         <div className="text-center lg:text-left">
           <motion.p
             initial="hidden"
             animate="visible"
             variants={fadeUp}
             transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-            className="mb-3 text-sm font-medium uppercase tracking-[0.3em] text-[#5f6d52]"
+            className="mb-4 text-xs font-medium uppercase tracking-[0.4em] text-[#5f6d52] sm:text-sm"
           >
-            Hello, I am
+            ✦ Hello, I am
           </motion.p>
 
           <motion.h1
@@ -62,29 +73,27 @@ export function Hero() {
             animate="visible"
             variants={fadeUp}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-            className="text-6xl font-bold tracking-[0.12em] text-[#778667] sm:text-7xl lg:text-8xl"
+            className="font-display font-wonk text-[clamp(4.5rem,14vw,11.5rem)] font-semibold leading-[0.85] tracking-tight text-[#778667]"
           >
             JAAMI
           </motion.h1>
 
-          <motion.div
+          <motion.p
             initial="hidden"
             animate="visible"
             variants={fadeUp}
             transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
-            className="mt-4 inline-block rounded-md bg-[#778667] px-5 py-2.5 shadow-sm"
+            className="font-accent mt-4 text-[clamp(1.6rem,4vw,3rem)] italic leading-[1.15] text-[#4a5442]"
           >
-            <span className="text-xl font-light text-[#eef3e5] sm:text-2xl">
-              Creative Video Editor
-            </span>
-          </motion.div>
+            Creative Video Editor
+          </motion.p>
 
           <motion.p
             initial="hidden"
             animate="visible"
             variants={fadeUp}
             transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
-            className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-[#4a5442] lg:mx-0"
+            className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-[#4a5442]/90 lg:mx-0 sm:text-lg"
           >
             {ABOUT_TEXT}
           </motion.p>
@@ -123,7 +132,7 @@ export function Hero() {
               (stat) => (
                 <span
                   key={stat}
-                  className="rounded-full bg-white/60 px-4 py-1.5 text-xs font-medium text-[#4a5442] ring-1 ring-[#778667]/30"
+                  className="font-accent rounded-full bg-white/60 px-4 py-1.5 text-sm italic text-[#4a5442] ring-1 ring-[#778667]/30 sm:text-base"
                 >
                   {stat}
                 </span>

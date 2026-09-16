@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Poppins } from "next/font/google";
+import { Geist, Poppins, Fraunces, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
@@ -12,6 +12,18 @@ const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
+});
+
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
+  subsets: ["latin"],
+  axes: ["opsz", "SOFT", "WONK"],
+});
+
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
@@ -45,7 +57,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${poppins.variable} antialiased bg-background text-foreground`}
+        className={`${geistSans.variable} ${poppins.variable} ${fraunces.variable} ${playfair.variable} antialiased bg-background text-foreground`}
       >
         {children}
         <Toaster />

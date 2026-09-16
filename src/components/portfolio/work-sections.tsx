@@ -8,11 +8,15 @@ import { VideoCard } from "./video-card";
 function SectionBanner({
   icon,
   title,
+  accent,
   subtitle,
+  number,
 }: {
   icon: React.ReactNode;
   title: string;
+  accent: string;
   subtitle: string;
+  number: string;
 }) {
   return (
     <motion.div
@@ -20,18 +24,26 @@ function SectionBanner({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="bg-[#778667] py-10 sm:py-12"
+      className="relative overflow-hidden bg-[#778667] py-12 sm:py-16"
     >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <span
+        aria-hidden
+        className="font-display font-wonk text-outline-cream pointer-events-none absolute -top-6 right-4 select-none text-[clamp(5rem,14vw,10rem)] leading-none opacity-25 sm:right-10"
+      >
+        {number}
+      </span>
+      <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
         <div className="flex items-center gap-4">
           <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/15 text-[#eef3e5]">
             {icon}
           </span>
           <div>
-            <h2 className="text-2xl font-semibold tracking-[0.18em] text-[#eef3e5] sm:text-3xl md:text-4xl">
-              {title}
+            <h2 className="font-display font-wonk text-[clamp(2.25rem,5.5vw,4.5rem)] leading-[1.02] tracking-tight text-[#eef3e5]">
+              {title}{' '}<span className="font-accent font-normal italic text-[#d9e6ca]">{accent}</span>
             </h2>
-            <p className="mt-1 text-sm text-[#eef3e5]/80">{subtitle}</p>
+            <p className="font-accent mt-2 text-lg italic text-[#eef3e5]/80 sm:text-xl">
+              {subtitle}
+            </p>
           </div>
         </div>
       </div>
@@ -44,8 +56,10 @@ export function ShortFormSection() {
     <section id="short-form" aria-label="Short form video editing portfolio">
       <SectionBanner
         icon={<Clapperboard className="h-6 w-6" />}
-        title="SHORT FORM EDITING"
+        title="SHORT FORM"
+        accent="editing"
         subtitle="Scroll-stopping reels, shorts & vertical content"
+        number="01"
       />
       <div className="bg-[#d9e6ca] py-14 sm:py-16">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -73,8 +87,10 @@ export function LongFormSection() {
     <section id="long-form" aria-label="Long form video editing portfolio">
       <SectionBanner
         icon={<Film className="h-6 w-6" />}
-        title="LONG FORM EDITING"
+        title="LONG FORM"
+        accent="editing"
         subtitle="Story-driven long form edits & brand films"
+        number="02"
       />
       <div className="bg-[#d9e6ca] py-14 sm:py-16">
         <div className="mx-auto max-w-5xl px-4 sm:px-6">

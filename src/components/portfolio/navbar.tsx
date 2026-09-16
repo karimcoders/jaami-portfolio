@@ -35,7 +35,7 @@ export function Navbar() {
       >
         <a
           href="#home"
-          className="text-xl font-semibold tracking-[0.25em] text-[#4a5442] transition-colors hover:text-[#778667]"
+          className="font-display font-wonk text-2xl font-semibold tracking-wide text-[#4a5442] transition-colors hover:text-[#778667]"
         >
           JAAMI
         </a>
