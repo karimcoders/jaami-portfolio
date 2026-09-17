@@ -1,12 +1,17 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import {
+  Reorder,
+  useDragControls,
+} from "framer-motion";
 import {
   ChevronDown,
   ChevronUp,
   Clapperboard,
   Eye,
   EyeOff,
+  GripVertical,
   Link2,
   Loader2,
   Pencil,
@@ -55,6 +60,32 @@ export function VideosManager({
   const [deleting, setDeleting] = useState<AdminVideo | null>(null);
   const [busyId, setBusyId] = useState<string | null>(null);
 
+  // Local order for drag & drop; synced from the server list on refresh.
+  const [order, setOrder] = useState<AdminVideo[]>(videos);
+  useEffect(() => setOrder(videos), [videos]);
+
+  // Auto-save whenever local order diverges from the server list.
+  useEffect(() => {
+    const propIds = videos.map((v) => v.id).join(",");
+    const localIds = order.map((v) => v.id).join(",");
+    if (propIds === localIds) return;
+    const timer = setTimeout(async () => {
+      try {
+        const res = await fetch("/api/admin/videos/reorder", {
+          method: "POST",
+          headers: jsonHeaders,
+          body: JSON.stringify({ ids: order.map((v) => v.id) }),
+        });
+        if (!res.ok) throw new Error("failed");
+        onRefresh();
+      } catch {
+        toast({ title: "Reorder failed", variant: "destructive" });
+        setOrder(videos); // revert to server order
+      }
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [order, videos, onRefresh, toast]);
+
   async function toggleVisible(video: AdminVideo) {
     setBusyId(video.id);
     try {
@@ -69,21 +100,12 @@ export function VideosManager({
     }
   }
 
-  async function move(index: number, dir: -1 | 1) {
+  function move(index: number, dir: -1 | 1) {
     const target = index + dir;
-    if (target < 0 || target >= videos.length) return;
-    const next = [...videos];
+    if (target < 0 || target >= order.length) return;
+    const next = [...order];
     [next[index], next[target]] = [next[target], next[index]];
-    try {
-      await fetch("/api/admin/videos/reorder", {
-        method: "POST",
-        headers: jsonHeaders,
-        body: JSON.stringify({ ids: next.map((v) => v.id) }),
-      });
-      onRefresh();
-    } catch {
-      toast({ title: "Reorder failed", variant: "destructive" });
-    }
+    setOrder(next);
   }
 
   async function confirmDelete() {
@@ -127,101 +149,36 @@ export function VideosManager({
           </p>
         </div>
       ) : (
-        <ul className="space-y-3">
-          {videos.map((video, i) => (
-            <li
-              key={video.id}
-              className={`flex items-center gap-3 rounded-2xl bg-white p-3 shadow-sm ring-1 ring-olive/20 transition-opacity ${
-                video.visible ? "" : "opacity-60"
-              } ${busyId === video.id ? "pointer-events-none" : ""}`}
-            >
-              {/* preview */}
-              <div className="h-16 w-11 shrink-0 overflow-hidden rounded-lg bg-coal sm:h-20 sm:w-14">
-                <video
-                  src={video.src}
-                  muted
-                  playsInline
-                  preload="metadata"
-                  className={`h-full w-full object-cover ${type === "long" ? "hidden" : ""}`}
-                />
-                {type === "long" && (
-                  <div className="flex h-full items-center justify-center text-olive">
-                    <Clapperboard className="h-5 w-5" />
-                  </div>
-                )}
-              </div>
-
-              {/* info */}
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-medium text-ink">
-                  {video.title || `Video ${i + 1}`}
-                </p>
-                <p className="truncate text-xs text-ink/50">{video.src}</p>
-                <span className="mt-1 inline-flex items-center gap-1 rounded-full bg-olive/10 px-2 py-0.5 text-[11px] font-medium text-olive-dark">
-                  {video.visible ? (
-                    <>
-                      <Eye className="h-3 w-3" /> Live
-                    </>
-                  ) : (
-                    <>
-                      <EyeOff className="h-3 w-3" /> Hidden
-                    </>
-                  )}
-                </span>
-              </div>
-
-              {/* controls */}
-              <div className="flex shrink-0 items-center gap-1 sm:gap-1.5">
-                <div className="flex flex-col gap-0.5">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    aria-label="Move up"
-                    disabled={i === 0}
-                    onClick={() => move(i, -1)}
-                    className="h-7 w-7 rounded-lg text-ink hover:bg-olive/15"
-                  >
-                    <ChevronUp className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    aria-label="Move down"
-                    disabled={i === videos.length - 1}
-                    onClick={() => move(i, 1)}
-                    className="h-7 w-7 rounded-lg text-ink hover:bg-olive/15"
-                  >
-                    <ChevronDown className="h-4 w-4" />
-                  </Button>
-                </div>
-                <Switch
-                  checked={video.visible}
-                  onCheckedChange={() => toggleVisible(video)}
-                  aria-label="Toggle visibility"
-                  className="data-[state=checked]:bg-olive"
-                />
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  aria-label="Edit video"
-                  onClick={() => setEditing(video)}
-                  className="h-9 w-9 rounded-lg text-ink hover:bg-olive/15"
-                >
-                  <Pencil className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  aria-label="Delete video"
-                  onClick={() => setDeleting(video)}
-                  className="h-9 w-9 rounded-lg text-red-500 hover:bg-red-50 hover:text-red-600"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <>
+          <p className="flex items-center gap-1.5 text-xs text-ink/60">
+            <GripVertical className="h-3.5 w-3.5" />
+            Video ko <b>drag karke</b> upar-neeche karein — ya arrows dabayein. #1 sabse
+            pehle dikhega.
+          </p>
+          <Reorder.Group
+            axis="y"
+            values={order}
+            onReorder={setOrder}
+            className="space-y-3"
+            as="ul"
+          >
+            {order.map((video, i) => (
+              <VideoRow
+                key={video.id}
+                video={video}
+                index={i}
+                total={order.length}
+                type={type}
+                busyId={busyId}
+                onToggleVisible={toggleVisible}
+                onMoveUp={() => move(i, -1)}
+                onMoveDown={() => move(i, 1)}
+                onEdit={() => setEditing(video)}
+                onDelete={() => setDeleting(video)}
+              />
+            ))}
+          </Reorder.Group>
+        </>
       )}
 
       <AddVideoDialog type={type} open={addOpen} onOpenChange={setAddOpen} onAdded={onRefresh} />
@@ -250,6 +207,145 @@ export function VideosManager({
         </AlertDialogContent>
       </AlertDialog>
     </div>
+  );
+}
+
+/* ---------------- Video row (draggable) ---------------- */
+
+function VideoRow({
+  video,
+  index,
+  total,
+  type,
+  busyId,
+  onToggleVisible,
+  onMoveUp,
+  onMoveDown,
+  onEdit,
+  onDelete,
+}: {
+  video: AdminVideo;
+  index: number;
+  total: number;
+  type: "short" | "long";
+  busyId: string | null;
+  onToggleVisible: (v: AdminVideo) => void;
+  onMoveUp: () => void;
+  onMoveDown: () => void;
+  onEdit: () => void;
+  onDelete: () => void;
+}) {
+  const dragControls = useDragControls();
+
+  return (
+    <Reorder.Item
+      value={video}
+      dragListener={false}
+      dragControls={dragControls}
+      as="li"
+      whileDrag={{ scale: 1.02, boxShadow: "0 12px 28px rgba(74,84,66,0.25)", zIndex: 30 }}
+      className={`flex items-center gap-2 rounded-2xl bg-white p-3 shadow-sm ring-1 ring-olive/20 transition-opacity sm:gap-3 ${
+        video.visible ? "" : "opacity-60"
+      } ${busyId === video.id ? "pointer-events-none" : ""}`}
+    >
+      {/* drag handle */}
+      <button
+        type="button"
+        aria-label="Drag to reorder"
+        onPointerDown={(e) => dragControls.start(e)}
+        className="touch-none shrink-0 cursor-grab rounded-lg p-1.5 text-ink/40 transition-colors hover:bg-olive/10 hover:text-olive-dark active:cursor-grabbing"
+      >
+        <GripVertical className="h-5 w-5" />
+      </button>
+
+      {/* preview */}
+      <div className="h-16 w-11 shrink-0 overflow-hidden rounded-lg bg-coal sm:h-20 sm:w-14">
+        <video
+          src={video.src}
+          muted
+          playsInline
+          preload="metadata"
+          className={`h-full w-full object-cover ${type === "long" ? "hidden" : ""}`}
+        />
+        {type === "long" && (
+          <div className="flex h-full items-center justify-center text-olive">
+            <Clapperboard className="h-5 w-5" />
+          </div>
+        )}
+      </div>
+
+      {/* info */}
+      <div className="min-w-0 flex-1">
+        <p className="truncate text-sm font-medium text-ink">
+          <span className="mr-1.5 inline-flex h-5 min-w-5 items-center justify-center rounded-md bg-olive px-1 text-[11px] font-bold text-white">
+            #{index + 1}
+          </span>
+          {video.title || `Video ${index + 1}`}
+        </p>
+        <p className="truncate text-xs text-ink/50">{video.src}</p>
+        <span className="mt-1 inline-flex items-center gap-1 rounded-full bg-olive/10 px-2 py-0.5 text-[11px] font-medium text-olive-dark">
+          {video.visible ? (
+            <>
+              <Eye className="h-3 w-3" /> Live
+            </>
+          ) : (
+            <>
+              <EyeOff className="h-3 w-3" /> Hidden
+            </>
+          )}
+        </span>
+      </div>
+
+      {/* controls */}
+      <div className="flex shrink-0 items-center gap-0.5 sm:gap-1">
+        <div className="flex flex-col gap-0.5">
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label="Move up"
+            disabled={index === 0}
+            onClick={onMoveUp}
+            className="h-8 w-8 rounded-lg text-ink hover:bg-olive/15"
+          >
+            <ChevronUp className="h-4.5 w-4.5" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label="Move down"
+            disabled={index === total - 1}
+            onClick={onMoveDown}
+            className="h-8 w-8 rounded-lg text-ink hover:bg-olive/15"
+          >
+            <ChevronDown className="h-4.5 w-4.5" />
+          </Button>
+        </div>
+        <Switch
+          checked={video.visible}
+          onCheckedChange={() => onToggleVisible(video)}
+          aria-label="Toggle visibility"
+          className="data-[state=checked]:bg-olive"
+        />
+        <Button
+          variant="ghost"
+          size="icon"
+          aria-label="Edit video"
+          onClick={onEdit}
+          className="h-9 w-9 rounded-lg text-ink hover:bg-olive/15"
+        >
+          <Pencil className="h-4 w-4" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon"
+          aria-label="Delete video"
+          onClick={onDelete}
+          className="h-9 w-9 rounded-lg text-red-500 hover:bg-red-50 hover:text-red-600"
+        >
+          <Trash2 className="h-4 w-4" />
+        </Button>
+      </div>
+    </Reorder.Item>
   );
 }
 
