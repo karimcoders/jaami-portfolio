@@ -2,14 +2,15 @@
 
 import { motion } from "framer-motion";
 import { ArrowDown, Mail } from "lucide-react";
-import { ABOUT_TEXT, CONTACTS, PORTRAIT } from "./data";
+import type { HeroSettings } from "./types";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0 },
 };
 
-export function Hero() {
+export function Hero({ settings }: { settings: HeroSettings }) {
+  const { name, tagline, about, avatarUrl, stats } = settings;
   return (
     <section
       id="home"
@@ -46,8 +47,8 @@ export function Hero() {
           <div className="absolute inset-0 -z-10 translate-x-4 translate-y-4 rounded-t-[14rem] rounded-b-[2rem] bg-[#778667]/25" />
           <div className="overflow-hidden rounded-t-[14rem] rounded-b-[2rem] border-[10px] border-[#778667] bg-[#778667]/20 shadow-xl">
             <img
-              src={PORTRAIT}
-              alt="Portrait of JAAMI, creative video editor"
+              src={avatarUrl}
+              alt={`Portrait of ${name}, creative video editor`}
               className="aspect-[4/5] w-full object-cover"
             />
           </div>
@@ -75,7 +76,7 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
             className="font-display font-wonk text-[clamp(4.5rem,14vw,11.5rem)] font-semibold leading-[0.85] tracking-tight text-[#778667]"
           >
-            JAAMI
+            {name}
           </motion.h1>
 
           <motion.p
@@ -85,7 +86,7 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
             className="font-accent mt-4 text-[clamp(1.6rem,4vw,3rem)] italic leading-[1.15] text-[#4a5442]"
           >
-            Creative Video Editor
+            {tagline}
           </motion.p>
 
           <motion.p
@@ -95,7 +96,7 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
             className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-[#4a5442]/90 lg:mx-0 sm:text-lg"
           >
-            {ABOUT_TEXT}
+            {about}
           </motion.p>
 
           <motion.div
@@ -113,7 +114,7 @@ export function Hero() {
               <ArrowDown className="h-4 w-4" />
             </a>
             <a
-              href={`mailto:${CONTACTS.email}`}
+              href="#contact"
               className="inline-flex items-center gap-2 rounded-full border-2 border-[#778667] px-6 py-[10px] text-sm font-medium text-[#4a5442] transition-all hover:-translate-y-0.5 hover:bg-[#778667]/15"
             >
               <Mail className="h-4 w-4" />
@@ -128,7 +129,7 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
             className="mt-10 flex flex-wrap justify-center gap-3 lg:justify-start"
           >
-            {["2+ Years Experience", "14+ Projects Delivered", "Short & Long Form"].map(
+            {stats.map(
               (stat) => (
                 <span
                   key={stat}

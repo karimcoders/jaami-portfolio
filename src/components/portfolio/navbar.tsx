@@ -10,7 +10,13 @@ const LINKS = [
   { href: "#contact", label: "Contact" },
 ];
 
-export function Navbar() {
+export function Navbar({
+  name,
+  whatsappUrl,
+}: {
+  name: string;
+  whatsappUrl: string;
+}) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -37,7 +43,7 @@ export function Navbar() {
           href="#home"
           className="font-display font-wonk text-2xl font-semibold tracking-wide text-[#4a5442] transition-colors hover:text-[#778667]"
         >
-          JAAMI
+          {name}
         </a>
 
         <ul className="hidden items-center gap-8 md:flex">
@@ -53,7 +59,7 @@ export function Navbar() {
           ))}
           <li>
             <a
-              href="https://wa.me/917780015030"
+              href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-full bg-[#778667] px-5 py-2 text-sm font-medium text-[#f4f7ee] shadow-sm transition-all hover:bg-[#5f6d52] hover:shadow-md"
@@ -89,7 +95,7 @@ export function Navbar() {
             ))}
             <li className="pt-2">
               <a
-                href="https://wa.me/917780015030"
+                href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block rounded-full bg-[#778667] px-5 py-2.5 text-center text-sm font-medium text-[#f4f7ee] transition-colors hover:bg-[#5f6d52]"

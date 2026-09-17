@@ -56,3 +56,29 @@ Work Log:
 Stage Summary:
 - Site ab editorial large-typography style mein — Fraunces curly serif + Playfair italic accents
 - Saare custom utilities Tailwind 4 @utility API se — compile guaranteed
+---
+Task ID: 4
+Agent: Super Z (main agent)
+Task: Portfolio mein CMS (admin panel) add karna taaki client khud content edit kar sake
+
+Work Log:
+- Prisma schema banaya: SiteSettings (hero/profile/section copy), Video (title/type/src/visible/sort), ContactItem (type/label/href/visible/sort), AdminConfig (passwordHash) — db push done
+- src/lib/auth.ts: sha256 password hash + cookie-based session token (7 din, httpOnly)
+- src/lib/cms.ts: ensureSeed() auto-seeds current content (12 short + 2 long videos, 3 contacts, JAAMI profile) — fresh DB par bhi site kabhi khali nahi dikhegi
+- 13 admin API routes: login/logout/session, data, settings PUT, videos POST + [id] PUT/DELETE + reorder, contacts POST + [id] PUT/DELETE + reorder, password PUT, upload (streaming, 300MB cap, mp4/webm/mov/images)
+- Public site DB-driven: page.tsx ab async server component (force-dynamic) jo getSiteData() se render karta hai; Hero/Navbar/WorkSections/Contact/Footer sab props letे hain; "Contact Me" ab #contact scroll karta hai
+- Admin UI /admin par: login screen (password protected, noindex) + dashboard with 5 tabs
+  - Profile: name/tagline/about/avatar upload/whatsapp link/stats badges (add-remove)/section captions/contact intro
+  - Short & Long tabs: video list with preview, visibility switch (Eye/Live badge), move up/down reorder, edit dialog (title + replace video with upload progress), delete confirm, add dialog (file upload with XHR progress + duration detect, ya paste link)
+  - Contact: type-based icons (Instagram/Email/WhatsApp/Link), add/edit/delete/reorder/visibility
+  - Account: password change (current verify + min 6 chars)
+- Sab mutations revalidatePath("/") karte hain — edits turant live
+- Admin theme site se match: sage/olive colors, Fraunces wonk headings, mobile-first (44px touch targets)
+- Agent Browser full verification: login flow (wrong password error sahi), profile edit live hua, video hide/show live hua, reorder live hua, contact add/delete live hua, password change + revert live, mobile 390px admin + public responsive, dev.log clean, lint 0 errors
+- Testing ke dauraan badla data wapas original restore kiya (2+ Years Experience, original video order, test contact deleted, password jaami123)
+
+Stage Summary:
+- Deliverable: Full CMS — client ab /admin par jaakar password se login karke apna pura portfolio khud edit kar sakta hai
+- Default password: jaami123 (client Account tab se change kar sakta hai)
+- Uploads public/uploads/ mein save hote hain; DB: db/custom.db (SQLite + Prisma)
+- Public design bilkul same raha — sab data ab database se aata hai

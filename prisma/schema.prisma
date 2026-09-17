@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,20 +7,46 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+// Singleton row (id = "main") — hero / profile / section copy
+model SiteSettings {
+  id            String   @id @default("main")
+  name          String   @default("JAAMI")
+  tagline       String   @default("Creative Video Editor")
+  about         String   @default("")
+  avatarUrl     String   @default("/assets/media/aabd43f4a629a999c77dde1681c06808.png")
+  whatsappUrl   String   @default("https://wa.me/917780015030")
+  stats         String   @default("[]") // JSON string[]
+  shortSubtitle String   @default("Scroll-stopping reels, shorts & vertical content")
+  longSubtitle  String   @default("Story-driven long form edits & brand films")
+  contactIntro  String   @default("Have a project in mind? Let's turn your raw ideas into scroll-stopping content. Reach out through any of the channels below.")
+  updatedAt     DateTime @updatedAt
+}
+
+// Portfolio videos — type: "short" | "long"
+model Video {
   id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
+  title     String   @default("") // internal label (admin only)
+  type      String   @default("short")
+  src       String
+  visible   Boolean  @default(true)
+  sort      Int      @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model Post {
-  id        String   @id @default(cuid())
-  title     String
-  content   String?
-  published Boolean  @default(false)
-  authorId  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+// Contact channel items — type: "instagram" | "email" | "whatsapp" | "link"
+model ContactItem {
+  id      String  @id @default(cuid())
+  type    String  @default("link")
+  label   String
+  href    String
+  visible Boolean @default(true)
+  sort    Int     @default(0)
+}
+
+// Singleton row (id = "main") — admin password (sha256)
+model AdminConfig {
+  id           String   @id @default("main")
+  passwordHash String
+  updatedAt    DateTime @updatedAt
 }

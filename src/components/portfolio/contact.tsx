@@ -1,49 +1,52 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail } from "lucide-react";
-import { CONTACTS, INSTAGRAM_LOGO, WHATSAPP_LOGO } from "./data";
+import { Globe, Mail } from "lucide-react";
+import { INSTAGRAM_LOGO, WHATSAPP_LOGO } from "./data";
+import type { ContactData } from "./types";
 
-const items = [
-  {
-    icon: (
+function ContactIcon({ type }: { type: string }) {
+  if (type === "instagram") {
+    return (
       <img
         src={INSTAGRAM_LOGO}
         alt=""
         aria-hidden
         className="h-10 w-10 rounded-xl object-cover shadow-md"
       />
-    ),
-    label: "@jaami.visuals",
-    href: CONTACTS.instagram,
-    external: true,
-  },
-  {
-    icon: (
-      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] shadow-md">
-        <Mail className="h-5 w-5 text-white" />
-      </span>
-    ),
-    label: CONTACTS.email,
-    href: `mailto:${CONTACTS.email}`,
-    external: false,
-  },
-  {
-    icon: (
+    );
+  }
+  if (type === "whatsapp") {
+    return (
       <img
         src={WHATSAPP_LOGO}
         alt=""
         aria-hidden
         className="h-10 w-10 rounded-xl object-cover shadow-md"
       />
-    ),
-    label: CONTACTS.phone,
-    href: CONTACTS.whatsapp,
-    external: true,
-  },
-];
+    );
+  }
+  if (type === "email") {
+    return (
+      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] shadow-md">
+        <Mail className="h-5 w-5 text-white" />
+      </span>
+    );
+  }
+  return (
+    <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#5f6d52] shadow-md">
+      <Globe className="h-5 w-5 text-[#eef3e5]" />
+    </span>
+  );
+}
 
-export function ContactSection() {
+export function ContactSection({
+  contacts,
+  intro,
+}: {
+  contacts: ContactData[];
+  intro: string;
+}) {
   return (
     <section
       id="contact"
@@ -91,44 +94,46 @@ export function ContactSection() {
           transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
           className="mt-5 max-w-xl text-base text-[#eef3e5]/85 sm:text-lg"
         >
-          Have a project in mind? Let&apos;s turn your raw ideas into
-          scroll-stopping content. Reach out through any of the channels below.
+          {intro}
         </motion.p>
 
         <div className="mt-10 flex flex-col gap-5">
-          {items.map((item, i) => (
-            <motion.a
-              key={item.label}
-              href={item.href}
-              target={item.external ? "_blank" : undefined}
-              rel={item.external ? "noopener noreferrer" : undefined}
-              initial={{ opacity: 0, x: -24 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.45, delay: i * 0.1, ease: "easeOut" }}
-              className="group flex w-fit items-center gap-5 rounded-2xl p-2 pr-6 transition-colors hover:bg-white/10"
-            >
-              {item.icon}
-              <span className="font-accent text-[clamp(1.4rem,3.5vw,2.4rem)] italic leading-snug text-[#eef3e5] transition-transform duration-300 group-hover:translate-x-1">
-                {item.label}
-              </span>
-            </motion.a>
-          ))}
+          {contacts.map((item, i) => {
+            const external = !item.href.startsWith("mailto:");
+            return (
+              <motion.a
+                key={item.id}
+                href={item.href}
+                target={external ? "_blank" : undefined}
+                rel={external ? "noopener noreferrer" : undefined}
+                initial={{ opacity: 0, x: -24 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.45, delay: i * 0.1, ease: "easeOut" }}
+                className="group flex w-fit items-center gap-5 rounded-2xl p-2 pr-6 transition-colors hover:bg-white/10"
+              >
+                <ContactIcon type={item.type} />
+                <span className="font-accent text-[clamp(1.4rem,3.5vw,2.4rem)] italic leading-snug text-[#eef3e5] transition-transform duration-300 group-hover:translate-x-1">
+                  {item.label}
+                </span>
+              </motion.a>
+            );
+          })}
         </div>
       </div>
     </section>
   );
 }
 
-export function Footer() {
+export function Footer({ name, tagline }: { name: string; tagline: string }) {
   return (
     <footer className="bg-[#5f6d52] py-6">
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-4 text-center text-sm text-[#eef3e5]/75 sm:flex-row sm:px-6">
         <p className="font-display font-wonk text-lg tracking-wide text-[#eef3e5]/90">
-          JAAMI
+          {name}
         </p>
-        <p>© {new Date().getFullYear()} JAAMI Visuals. All rights reserved.</p>
-        <p className="font-accent italic">Creative Video Editor — Short &amp; Long Form</p>
+        <p>© {new Date().getFullYear()} {name} Visuals. All rights reserved.</p>
+        <p className="font-accent italic">{tagline} — Short &amp; Long Form</p>
       </div>
     </footer>
   );

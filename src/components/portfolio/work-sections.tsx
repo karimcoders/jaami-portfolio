@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Clapperboard, Film } from "lucide-react";
-import { LONG_FORM_VIDEOS, SHORT_FORM_VIDEOS } from "./data";
+import type { VideoItem } from "./types";
 import { VideoCard } from "./video-card";
 
 function SectionBanner({
@@ -51,62 +51,86 @@ function SectionBanner({
   );
 }
 
-export function ShortFormSection() {
+export function ShortFormSection({
+  videos,
+  subtitle,
+}: {
+  videos: VideoItem[];
+  subtitle: string;
+}) {
   return (
     <section id="short-form" aria-label="Short form video editing portfolio">
       <SectionBanner
         icon={<Clapperboard className="h-6 w-6" />}
         title="SHORT FORM"
         accent="editing"
-        subtitle="Scroll-stopping reels, shorts & vertical content"
+        subtitle={subtitle}
         number="01"
       />
       <div className="bg-[#d9e6ca] py-14 sm:py-16">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {SHORT_FORM_VIDEOS.map((video, i) => (
-              <motion.div
-                key={video.id}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.45, delay: (i % 3) * 0.08, ease: "easeOut" }}
-              >
-                <VideoCard src={video.src} aspect="portrait" />
-              </motion.div>
-            ))}
-          </div>
+          {videos.length === 0 ? (
+            <p className="font-accent py-10 text-center text-xl italic text-[#4a5442]/70">
+              Videos coming soon ✦
+            </p>
+          ) : (
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {videos.map((video, i) => (
+                <motion.div
+                  key={video.id}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ duration: 0.45, delay: (i % 3) * 0.08, ease: "easeOut" }}
+                >
+                  <VideoCard src={video.src} aspect="portrait" />
+                </motion.div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>
   );
 }
 
-export function LongFormSection() {
+export function LongFormSection({
+  videos,
+  subtitle,
+}: {
+  videos: VideoItem[];
+  subtitle: string;
+}) {
   return (
     <section id="long-form" aria-label="Long form video editing portfolio">
       <SectionBanner
         icon={<Film className="h-6 w-6" />}
         title="LONG FORM"
         accent="editing"
-        subtitle="Story-driven long form edits & brand films"
+        subtitle={subtitle}
         number="02"
       />
       <div className="bg-[#d9e6ca] py-14 sm:py-16">
         <div className="mx-auto max-w-5xl px-4 sm:px-6">
-          <div className="flex flex-col gap-8">
-            {LONG_FORM_VIDEOS.map((video, i) => (
-              <motion.div
-                key={video.id}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
-              >
-                <VideoCard src={video.src} aspect="video" />
-              </motion.div>
-            ))}
-          </div>
+          {videos.length === 0 ? (
+            <p className="font-accent py-10 text-center text-xl italic text-[#4a5442]/70">
+              Videos coming soon ✦
+            </p>
+          ) : (
+            <div className="flex flex-col gap-8">
+              {videos.map((video, i) => (
+                <motion.div
+                  key={video.id}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
+                >
+                  <VideoCard src={video.src} aspect="video" />
+                </motion.div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>
