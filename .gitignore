@@ -52,3 +52,14 @@ prompt
 server.log
 # Skills directory
 /skills/
+# env & database (auto-seeded on fresh clone)
+.env
+db/*.db
+db/*.db-journal
+
+# user uploads (CMS media)
+public/uploads/
+
+# misc
+scripts/*.png
+agent-ctx/
