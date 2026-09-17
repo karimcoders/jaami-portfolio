@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Volume2, VolumeX } from "lucide-react";
+import { trackEvent } from "@/lib/track";
 
 const MUTE_EVENT = "jaami:mute-all";
 
@@ -58,6 +59,7 @@ export function VideoCard({ src, aspect = "portrait", className = "" }: VideoCar
     if (!next) {
       window.dispatchEvent(new CustomEvent(MUTE_EVENT, { detail: src }));
       video.play().catch(() => {});
+      trackEvent("video_play", src.split("/").pop() ?? src);
     }
   };
 

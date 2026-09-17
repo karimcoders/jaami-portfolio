@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Globe, Mail } from "lucide-react";
 import { INSTAGRAM_LOGO, WHATSAPP_LOGO } from "./data";
+import { trackEvent } from "@/lib/track";
 import type { ContactData } from "./types";
 
 function ContactIcon({ type }: { type: string }) {
@@ -106,6 +107,7 @@ export function ContactSection({
                 href={item.href}
                 target={external ? "_blank" : undefined}
                 rel={external ? "noopener noreferrer" : undefined}
+                onClick={() => trackEvent("contact_click", `${item.type}:${item.label}`)}
                 initial={{ opacity: 0, x: -24 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-40px" }}

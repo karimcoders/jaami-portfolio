@@ -50,3 +50,42 @@ model AdminConfig {
   passwordHash String
   updatedAt    DateTime @updatedAt
 }
+
+// Visitor analytics — one row per page view (duration updated via heartbeat)
+model PageView {
+  id           String   @id @default(cuid())
+  visitorId    String // random UUID persisted in visitor's localStorage
+  sessionId    String // random UUID per browser session
+  path         String   @default("/")
+  referrer     String   @default("") // raw referrer url
+  referrerHost String   @default("") // cleaned source: "direct" | "google.com" | ...
+  country      String   @default("Unknown")
+  countryCode  String   @default("")
+  city         String   @default("")
+  device       String   @default("Desktop") // Desktop | Mobile | Tablet
+  browser      String   @default("Unknown")
+  os           String   @default("Unknown")
+  screen       String   @default("") // "390x844"
+  language     String   @default("")
+  durationSec  Int      @default(0) // engaged seconds on page
+  createdAt    DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([visitorId])
+  @@index([sessionId])
+  @@index([path])
+}
+
+// Custom events — video plays, contact clicks, CTA clicks
+model TrackEvent {
+  id        String   @id @default(cuid())
+  visitorId String
+  sessionId String
+  name      String // video_play | contact_click | cta_click
+  label     String   @default("") // video filename / contact label / button name
+  path      String   @default("/")
+  createdAt DateTime @default(now())
+
+  @@index([name])
+  @@index([createdAt])
+}

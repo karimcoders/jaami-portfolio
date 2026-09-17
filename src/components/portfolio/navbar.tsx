@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
+import { trackEvent } from "@/lib/track";
 
 const LINKS = [
   { href: "#home", label: "Home" },
@@ -62,6 +63,7 @@ export function Navbar({
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackEvent("cta_click", "Hire Me (navbar)")}
               className="rounded-full bg-[#778667] px-5 py-2 text-sm font-medium text-[#f4f7ee] shadow-sm transition-all hover:bg-[#5f6d52] hover:shadow-md"
             >
               Hire Me

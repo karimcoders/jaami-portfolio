@@ -82,3 +82,27 @@ Stage Summary:
 - Default password: jaami123 (client Account tab se change kar sakta hai)
 - Uploads public/uploads/ mein save hote hain; DB: db/custom.db (SQLite + Prisma)
 - Public design bilkul same raha — sab data ab database se aata hai
+
+---
+Task ID: 5
+Agent: Super Z (main agent)
+Task: Website visitor analytics (A-to-Z tracking) — kaun visit kar raha, kab, kahan se, kya kar raha + admin dashboard
+
+Work Log:
+- Prisma schema mein PageView (path/referrer/geo/device/browser/os/screen/duration) + TrackEvent (name/label) models add kiye, db push done
+- src/lib/analytics.ts: UA parser (device/browser/os), client IP extraction (proxy headers), geo-IP lookup via ip-api.com (24h in-memory cache, private IP → "Local network", graceful "Unknown" fallback), referrer → friendly source mapping (Google/Instagram/WhatsApp/X etc.)
+- POST /api/track: zod-validated view/event/heartbeat endpoints; bots blocked (regex); admin/api paths never tracked; errors swallowed — analytics kabhi site nahi todta
+- src/lib/track.ts + components/analytics/tracker.tsx: visitor ID (localStorage) + session ID (sessionStorage), page view on every route, 15s visible-time heartbeat, sendBeacon on pagehide, admin paths skip
+- Events wired: video_play (unmute par, filename label), contact_click (type:label), cta_click (View My Work / Contact Me / Hire Me navbar)
+- GET /api/admin/analytics?range=24h|7d|30d|all: totals (views/visitors/viewsToday IST/avgDuration/live 5-min/all-time), daily series (IST day boundaries), top pages/sources/countries/cities/devices/browsers/OS, event counts, recent 25 visits, live visitors — isAdmin protected
+- components/admin/analytics-dashboard.tsx: stat cards (live pulse dot), recharts AreaChart (views+visitors), live feed, BarList breakdowns, countries with flag emojis, events list, recent visitors table, 30s auto-refresh, range selector
+- Admin panel mein 6th tab "Analytics" add kiya (BarChart3 icon)
+- DEBUGGING: stale Prisma client (pageView undefined) tha — dev server restart se fix; HeadlessChrome bot-block tha — dev-mode exception add kiya (production mein bots blocked rahenge)
+- Browser verification: view tracked (India/New Delhi geo sahi), video_play + cta_click + contact_click events DB mein aaye, heartbeat durationSec=9, dashboard stats/chart/live feed/countries flags sab render, range filter works, mobile 390px responsive, lint 0 errors
+- Testing ke baad PageView + TrackEvent tables wipe ki — client fresh start karega
+
+Stage Summary:
+- Deliverable: Full visitor analytics system — /admin → Analytics tab
+- Track hota hai: kaun (device/browser/OS/IP→city+country), kab (timestamps + daily chart), kahan se (referrer sources), kya kar raha (video plays, contact clicks, CTA clicks, time spent)
+- Live visitors (5-min window), 30s auto-refresh, 24h/7d/30d/all filters
+- Bots production mein blocked; test data cleaned

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ArrowDown, Mail } from "lucide-react";
+import { trackEvent } from "@/lib/track";
 import type { HeroSettings } from "./types";
 
 const fadeUp = {
@@ -108,6 +109,7 @@ export function Hero({ settings }: { settings: HeroSettings }) {
           >
             <a
               href="#short-form"
+              onClick={() => trackEvent("cta_click", "View My Work")}
               className="inline-flex items-center gap-2 rounded-full bg-[#778667] px-6 py-3 text-sm font-medium text-[#f4f7ee] shadow-md transition-all hover:-translate-y-0.5 hover:bg-[#5f6d52] hover:shadow-lg"
             >
               View My Work
@@ -115,6 +117,7 @@ export function Hero({ settings }: { settings: HeroSettings }) {
             </a>
             <a
               href="#contact"
+              onClick={() => trackEvent("cta_click", "Contact Me")}
               className="inline-flex items-center gap-2 rounded-full border-2 border-[#778667] px-6 py-[10px] text-sm font-medium text-[#4a5442] transition-all hover:-translate-y-0.5 hover:bg-[#778667]/15"
             >
               <Mail className="h-4 w-4" />

@@ -11,6 +11,7 @@ import {
   LogOut,
   UserRound,
   Phone,
+  BarChart3,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,6 +22,7 @@ import { ProfileForm } from "./profile-form";
 import { VideosManager } from "./videos-manager";
 import { ContactsManager } from "./contacts-manager";
 import { PasswordForm } from "./password-form";
+import { AnalyticsDashboard } from "./analytics-dashboard";
 import type { AdminData } from "./types";
 
 type Status = "loading" | "login" | "ready";
@@ -148,6 +150,12 @@ export function AdminApp() {
                 <Phone className="h-4 w-4" /> Contact
               </TabsTrigger>
               <TabsTrigger
+                value="analytics"
+                className="gap-1.5 rounded-xl px-3 py-2 text-xs data-[state=active]:bg-[#778667] data-[state=active]:text-white sm:px-4 sm:text-sm"
+              >
+                <BarChart3 className="h-4 w-4" /> Analytics
+              </TabsTrigger>
+              <TabsTrigger
                 value="account"
                 className="gap-1.5 rounded-xl px-3 py-2 text-xs data-[state=active]:bg-[#778667] data-[state=active]:text-white sm:px-4 sm:text-sm"
               >
@@ -174,6 +182,9 @@ export function AdminApp() {
             </TabsContent>
             <TabsContent value="contact">
               <ContactsManager contacts={data.contacts} onRefresh={refresh} />
+            </TabsContent>
+            <TabsContent value="analytics">
+              <AnalyticsDashboard />
             </TabsContent>
             <TabsContent value="account">
               <PasswordForm />

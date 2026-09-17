@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Poppins, Fraunces, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import { AnalyticsTracker } from "@/components/analytics/tracker";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -59,6 +60,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${poppins.variable} ${fraunces.variable} ${playfair.variable} antialiased bg-background text-foreground`}
       >
+        <AnalyticsTracker />
         {children}
         <Toaster />
       </body>
