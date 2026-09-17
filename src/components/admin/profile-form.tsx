@@ -86,17 +86,17 @@ export function ProfileForm({
   return (
     <div className="space-y-6">
       {/* Profile card */}
-      <section className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-[#778667]/20 sm:p-6">
-        <h2 className="font-display font-wonk mb-1 text-xl font-semibold text-[#4a5442] sm:text-2xl">
+      <section className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-olive/20 sm:p-6">
+        <h2 className="font-display font-wonk mb-1 text-xl font-semibold text-ink sm:text-2xl">
           Hero &amp; Profile
         </h2>
-        <p className="mb-5 text-sm text-[#4a5442]/70">
+        <p className="mb-5 text-sm text-ink/70">
           Website ke top section mein naam, tagline aur photo.
         </p>
 
         <div className="mb-6 flex flex-col items-center gap-4 sm:flex-row sm:items-start">
           <div className="shrink-0">
-            <div className="h-28 w-28 overflow-hidden rounded-3xl bg-[#778667]/15 ring-2 ring-[#778667]/40">
+            <div className="h-28 w-28 overflow-hidden rounded-3xl bg-olive/15 ring-2 ring-olive/40">
               {avatarUrl ? (
                  
                 <img
@@ -105,7 +105,7 @@ export function ProfileForm({
                   className="h-full w-full object-cover"
                 />
               ) : (
-                <div className="flex h-full items-center justify-center text-[#778667]">
+                <div className="flex h-full items-center justify-center text-olive">
                   <ImagePlus className="h-8 w-8" />
                 </div>
               )}
@@ -127,7 +127,7 @@ export function ProfileForm({
               size="sm"
               disabled={uploading}
               onClick={() => fileRef.current?.click()}
-              className="mt-2 w-full rounded-xl border-[#778667]/40 text-[#4a5442] hover:bg-[#778667]/10"
+              className="mt-2 w-full rounded-xl border-olive/40 text-ink hover:bg-olive/10"
             >
               {uploading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
@@ -141,36 +141,36 @@ export function ProfileForm({
           <div className="w-full space-y-4">
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-1.5">
-                <Label htmlFor="pf-name" className="text-[#4a5442]">Name</Label>
+                <Label htmlFor="pf-name" className="text-ink">Name</Label>
                 <Input
                   id="pf-name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="h-11 rounded-xl border-[#778667]/30 focus-visible:ring-[#778667]"
+                  className="h-11 rounded-xl border-olive/30 focus-visible:ring-olive"
                 />
               </div>
               <div className="space-y-1.5">
-                <Label htmlFor="pf-tagline" className="text-[#4a5442]">Tagline</Label>
+                <Label htmlFor="pf-tagline" className="text-ink">Tagline</Label>
                 <Input
                   id="pf-tagline"
                   value={tagline}
                   onChange={(e) => setTagline(e.target.value)}
-                  className="h-11 rounded-xl border-[#778667]/30 focus-visible:ring-[#778667]"
+                  className="h-11 rounded-xl border-olive/30 focus-visible:ring-olive"
                 />
               </div>
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="pf-about" className="text-[#4a5442]">About text</Label>
+              <Label htmlFor="pf-about" className="text-ink">About text</Label>
               <Textarea
                 id="pf-about"
                 value={about}
                 onChange={(e) => setAbout(e.target.value)}
                 rows={4}
-                className="rounded-xl border-[#778667]/30 focus-visible:ring-[#778667]"
+                className="rounded-xl border-olive/30 focus-visible:ring-olive"
               />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="pf-wa" className="text-[#4a5442]">
+              <Label htmlFor="pf-wa" className="text-ink">
                 WhatsApp / Hire Me link
               </Label>
               <Input
@@ -178,7 +178,7 @@ export function ProfileForm({
                 value={whatsappUrl}
                 onChange={(e) => setWhatsappUrl(e.target.value)}
                 placeholder="https://wa.me/91..."
-                className="h-11 rounded-xl border-[#778667]/30 focus-visible:ring-[#778667]"
+                className="h-11 rounded-xl border-olive/30 focus-visible:ring-olive"
               />
             </div>
           </div>
@@ -186,7 +186,7 @@ export function ProfileForm({
 
         {/* Stats chips */}
         <div className="space-y-2">
-          <Label className="text-[#4a5442]">Highlight badges (hero chips)</Label>
+          <Label className="text-ink">Highlight badges (hero chips)</Label>
           <div className="space-y-2">
             {stats.map((stat, i) => (
               <div key={i} className="flex items-center gap-2">
@@ -197,7 +197,7 @@ export function ProfileForm({
                     next[i] = e.target.value;
                     setStats(next);
                   }}
-                  className="h-11 rounded-xl border-[#778667]/30 focus-visible:ring-[#778667]"
+                  className="h-11 rounded-xl border-olive/30 focus-visible:ring-olive"
                 />
                 <Button
                   type="button"
@@ -217,7 +217,7 @@ export function ProfileForm({
             variant="outline"
             size="sm"
             onClick={() => setStats([...stats, ""])}
-            className="rounded-xl border-[#778667]/40 text-[#4a5442] hover:bg-[#778667]/10"
+            className="rounded-xl border-olive/40 text-ink hover:bg-olive/10"
           >
             <Plus className="h-4 w-4" /> Add badge
           </Button>
@@ -225,39 +225,39 @@ export function ProfileForm({
       </section>
 
       {/* Sections copy */}
-      <section className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-[#778667]/20 sm:p-6">
-        <h2 className="font-display font-wonk mb-1 text-xl font-semibold text-[#4a5442] sm:text-2xl">
+      <section className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-olive/20 sm:p-6">
+        <h2 className="font-display font-wonk mb-1 text-xl font-semibold text-ink sm:text-2xl">
           Section text
         </h2>
-        <p className="mb-5 text-sm text-[#4a5442]/70">
+        <p className="mb-5 text-sm text-ink/70">
           Videos aur contact sections ke chhote captions.
         </p>
 
         <div className="space-y-4">
           <div className="space-y-1.5">
-            <Label htmlFor="pf-short" className="text-[#4a5442]">
+            <Label htmlFor="pf-short" className="text-ink">
               Short form section caption
             </Label>
             <Input
               id="pf-short"
               value={shortSubtitle}
               onChange={(e) => setShortSubtitle(e.target.value)}
-              className="h-11 rounded-xl border-[#778667]/30 focus-visible:ring-[#778667]"
+              className="h-11 rounded-xl border-olive/30 focus-visible:ring-olive"
             />
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="pf-long" className="text-[#4a5442]">
+            <Label htmlFor="pf-long" className="text-ink">
               Long form section caption
             </Label>
             <Input
               id="pf-long"
               value={longSubtitle}
               onChange={(e) => setLongSubtitle(e.target.value)}
-              className="h-11 rounded-xl border-[#778667]/30 focus-visible:ring-[#778667]"
+              className="h-11 rounded-xl border-olive/30 focus-visible:ring-olive"
             />
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="pf-intro" className="text-[#4a5442]">
+            <Label htmlFor="pf-intro" className="text-ink">
               Contact section intro
             </Label>
             <Textarea
@@ -265,7 +265,7 @@ export function ProfileForm({
               value={contactIntro}
               onChange={(e) => setContactIntro(e.target.value)}
               rows={3}
-              className="rounded-xl border-[#778667]/30 focus-visible:ring-[#778667]"
+              className="rounded-xl border-olive/30 focus-visible:ring-olive"
             />
           </div>
         </div>
@@ -273,8 +273,8 @@ export function ProfileForm({
 
       {/* Sticky save */}
       <div className="sticky bottom-4 z-30">
-        <div className="flex items-center justify-between gap-3 rounded-2xl bg-[#4a5442] p-3 pl-5 shadow-lg">
-          <p className="hidden text-sm text-[#eef3e5]/80 sm:block">
+        <div className="flex items-center justify-between gap-3 rounded-2xl bg-ink p-3 pl-5 shadow-lg">
+          <p className="hidden text-sm text-mist/80 sm:block">
             Changes website par tabhi dikhengi jab aap save karenge.
           </p>
           <Button

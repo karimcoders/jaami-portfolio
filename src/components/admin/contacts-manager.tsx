@@ -117,16 +117,16 @@ export function ContactsManager({
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="font-display font-wonk text-xl font-semibold text-[#4a5442] sm:text-2xl">
+          <h2 className="font-display font-wonk text-xl font-semibold text-ink sm:text-2xl">
             Contact channels
           </h2>
-          <p className="text-sm text-[#4a5442]/70">
+          <p className="text-sm text-ink/70">
             Website ke contact section mein kya dikhe — yahan se control karein.
           </p>
         </div>
         <Button
           onClick={() => setAddOpen(true)}
-          className="h-11 rounded-xl bg-[#778667] px-5 hover:bg-[#5f6d52]"
+          className="h-11 rounded-xl bg-olive px-5 hover:bg-olive-dark"
         >
           <Plus className="h-4 w-4" /> Add contact
         </Button>
@@ -136,16 +136,16 @@ export function ContactsManager({
         {contacts.map((contact, i) => (
           <li
             key={contact.id}
-            className={`flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-[#778667]/20 transition-opacity ${
+            className={`flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-olive/20 transition-opacity ${
               contact.visible ? "" : "opacity-60"
             } ${busyId === contact.id ? "pointer-events-none" : ""}`}
           >
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#778667]/15 text-[#5f6d52]">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-olive/15 text-olive-dark">
               <TypeIcon type={contact.type} />
             </span>
             <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-medium text-[#4a5442]">{contact.label}</p>
-              <p className="truncate text-xs text-[#4a5442]/50">{contact.href}</p>
+              <p className="truncate text-sm font-medium text-ink">{contact.label}</p>
+              <p className="truncate text-xs text-ink/50">{contact.href}</p>
             </div>
             <div className="flex shrink-0 items-center gap-1 sm:gap-1.5">
               <div className="flex flex-col gap-0.5">
@@ -155,7 +155,7 @@ export function ContactsManager({
                   aria-label="Move up"
                   disabled={i === 0}
                   onClick={() => move(i, -1)}
-                  className="h-7 w-7 rounded-lg text-[#4a5442] hover:bg-[#778667]/15"
+                  className="h-7 w-7 rounded-lg text-ink hover:bg-olive/15"
                 >
                   <ChevronUp className="h-4 w-4" />
                 </Button>
@@ -165,7 +165,7 @@ export function ContactsManager({
                   aria-label="Move down"
                   disabled={i === contacts.length - 1}
                   onClick={() => move(i, 1)}
-                  className="h-7 w-7 rounded-lg text-[#4a5442] hover:bg-[#778667]/15"
+                  className="h-7 w-7 rounded-lg text-ink hover:bg-olive/15"
                 >
                   <ChevronDown className="h-4 w-4" />
                 </Button>
@@ -174,14 +174,14 @@ export function ContactsManager({
                 checked={contact.visible}
                 onCheckedChange={() => toggleVisible(contact)}
                 aria-label="Toggle visibility"
-                className="data-[state=checked]:bg-[#778667]"
+                className="data-[state=checked]:bg-olive"
               />
               <Button
                 variant="ghost"
                 size="icon"
                 aria-label="Edit contact"
                 onClick={() => setEditing(contact)}
-                className="h-9 w-9 rounded-lg text-[#4a5442] hover:bg-[#778667]/15"
+                className="h-9 w-9 rounded-lg text-ink hover:bg-olive/15"
               >
                 <Pencil className="h-4 w-4" />
               </Button>
@@ -316,9 +316,9 @@ function ContactDialog({
 
         <div className="space-y-4">
           <div className="space-y-1.5">
-            <Label className="text-[#4a5442]">Type</Label>
+            <Label className="text-ink">Type</Label>
             <Select value={type} onValueChange={setType}>
-              <SelectTrigger className="h-11 rounded-xl border-[#778667]/30 focus:ring-[#778667]">
+              <SelectTrigger className="h-11 rounded-xl border-olive/30 focus:ring-olive">
                 <SelectValue placeholder="Choose type" />
               </SelectTrigger>
               <SelectContent>
@@ -332,7 +332,7 @@ function ContactDialog({
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="c-label" className="text-[#4a5442]">
+            <Label htmlFor="c-label" className="text-ink">
               Display text
             </Label>
             <Input
@@ -340,12 +340,12 @@ function ContactDialog({
               value={label}
               onChange={(e) => setLabel(e.target.value)}
               placeholder="e.g. @jaami.visuals"
-              className="h-11 rounded-xl border-[#778667]/30 focus-visible:ring-[#778667]"
+              className="h-11 rounded-xl border-olive/30 focus-visible:ring-olive"
             />
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="c-href" className="text-[#4a5442]">
+            <Label htmlFor="c-href" className="text-ink">
               Link {type === "email" ? "(email address)" : "(URL)"}
             </Label>
             <Input
@@ -353,14 +353,14 @@ function ContactDialog({
               value={href}
               onChange={(e) => setHref(e.target.value)}
               placeholder={type === "email" ? "hello@example.com" : "https://..."}
-              className="h-11 rounded-xl border-[#778667]/30 focus-visible:ring-[#778667]"
+              className="h-11 rounded-xl border-olive/30 focus-visible:ring-olive"
             />
           </div>
 
           <Button
             onClick={save}
             disabled={busy}
-            className="h-11 w-full rounded-xl bg-[#778667] hover:bg-[#5f6d52]"
+            className="h-11 w-full rounded-xl bg-olive hover:bg-olive-dark"
           >
             {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : isEdit ? "Save changes" : "Add contact"}
           </Button>

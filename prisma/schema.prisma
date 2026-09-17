@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Singleton row (id = "main") — hero / profile / section copy
+// Singleton row (id = "main") — hero / profile / section copy / theme / SEO
 model SiteSettings {
   id            String   @id @default("main")
   name          String   @default("JAAMI")
@@ -19,7 +19,42 @@ model SiteSettings {
   shortSubtitle String   @default("Scroll-stopping reels, shorts & vertical content")
   longSubtitle  String   @default("Story-driven long form edits & brand films")
   contactIntro  String   @default("Have a project in mind? Let's turn your raw ideas into scroll-stopping content. Reach out through any of the channels below.")
+  // Branding
+  logoUrl       String   @default("") // empty = text brand (name)
+  faviconUrl    String   @default("")
+  // Theme colors (WordPress-style customizer)
+  colorOlive     String  @default("#778667") // primary
+  colorOliveDark String  @default("#5f6d52") // hover / footer
+  colorSage      String  @default("#d9e6ca") // page background
+  colorMist      String  @default("#eef3e5") // light panel background
+  colorInk       String  @default("#4a5442") // main text
+  colorCream     String  @default("#f4f7ee") // light text
+  // Typography preset: fraunces | playfair | dmserif | modern
+  fontPreset    String   @default("fraunces")
+  // Section visibility
+  showMarquee   Boolean  @default(true)
+  showStats     Boolean  @default(true)
+  showShort     Boolean  @default(true)
+  showLong      Boolean  @default(true)
+  showContact   Boolean  @default(true)
+  // SEO / footer
+  seoTitle       String  @default("JAAMI | Creative Video Editor")
+  seoDescription String  @default("Creative and detail-oriented short form & long form video editor with 2 years of experience specializing in storytelling and visual communication. Turning raw ideas into scroll-stopping content.")
+  footerText     String  @default("")
   updatedAt     DateTime @updatedAt
+}
+
+// WordPress-style editable pages — blocks JSON rendered on /{slug}
+model Page {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  blocks    String   @default("[]") // JSON Block[]
+  showInNav Boolean  @default(true)
+  visible   Boolean  @default(true)
+  sort      Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // Portfolio videos — type: "short" | "long"

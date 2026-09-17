@@ -13,10 +13,11 @@ export async function GET() {
 
   await ensureSeed();
 
-  const [settings, videos, contacts] = await Promise.all([
+  const [settings, videos, contacts, pages] = await Promise.all([
     db.siteSettings.findUnique({ where: { id: "main" } }),
     db.video.findMany({ orderBy: { sort: "asc" } }),
     db.contactItem.findMany({ orderBy: { sort: "asc" } }),
+    db.page.findMany({ orderBy: { sort: "asc" } }),
   ]);
 
   let stats: string[] = [];
@@ -33,5 +34,23 @@ export async function GET() {
     settings: settings ? { ...settings, stats } : null,
     videos,
     contacts,
+    pages: pages.map((p) => ({
+      id: p.id,
+      slug: p.slug,
+      title: p.title,
+      blocks: safeBlocks(p.blocks),
+      showInNav: p.showInNav,
+      visible: p.visible,
+      sort: p.sort,
+    })),
   });
+}
+
+function safeBlocks(raw: string): unknown[] {
+  try {
+    const parsed = JSON.parse(raw ?? "[]");
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
 }

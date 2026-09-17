@@ -24,7 +24,7 @@ function SectionBanner({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="relative overflow-hidden bg-[#778667] py-12 sm:py-16"
+      className="relative overflow-hidden bg-olive py-12 sm:py-16"
     >
       <span
         aria-hidden
@@ -34,14 +34,14 @@ function SectionBanner({
       </span>
       <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
         <div className="flex items-center gap-4">
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/15 text-[#eef3e5]">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/15 text-mist">
             {icon}
           </span>
           <div>
-            <h2 className="font-display font-wonk text-[clamp(2.25rem,5.5vw,4.5rem)] leading-[1.02] tracking-tight text-[#eef3e5]">
-              {title}{' '}<span className="font-accent font-normal italic text-[#d9e6ca]">{accent}</span>
+            <h2 className="font-display font-wonk text-[clamp(2.25rem,5.5vw,4.5rem)] leading-[1.02] tracking-tight text-mist">
+              {title}{' '}<span className="font-accent font-normal italic text-sage">{accent}</span>
             </h2>
-            <p className="font-accent mt-2 text-lg italic text-[#eef3e5]/80 sm:text-xl">
+            <p className="font-accent mt-2 text-lg italic text-mist/80 sm:text-xl">
               {subtitle}
             </p>
           </div>
@@ -67,10 +67,10 @@ export function ShortFormSection({
         subtitle={subtitle}
         number="01"
       />
-      <div className="bg-[#d9e6ca] py-14 sm:py-16">
+      <div className="bg-sage py-14 sm:py-16">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           {videos.length === 0 ? (
-            <p className="font-accent py-10 text-center text-xl italic text-[#4a5442]/70">
+            <p className="font-accent py-10 text-center text-xl italic text-ink/70">
               Videos coming soon ✦
             </p>
           ) : (
@@ -110,10 +110,10 @@ export function LongFormSection({
         subtitle={subtitle}
         number="02"
       />
-      <div className="bg-[#d9e6ca] py-14 sm:py-16">
+      <div className="bg-sage py-14 sm:py-16">
         <div className="mx-auto max-w-5xl px-4 sm:px-6">
           {videos.length === 0 ? (
-            <p className="font-accent py-10 text-center text-xl italic text-[#4a5442]/70">
+            <p className="font-accent py-10 text-center text-xl italic text-ink/70">
               Videos coming soon ✦
             </p>
           ) : (

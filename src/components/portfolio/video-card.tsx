@@ -74,7 +74,7 @@ export function VideoCard({ src, aspect = "portrait", className = "" }: VideoCar
 
   return (
     <div
-      className={`group relative cursor-pointer overflow-hidden rounded-2xl bg-[#15180f] shadow-md ring-1 ring-[#778667]/25 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:ring-[#778667]/60 ${className}`}
+      className={`group relative cursor-pointer overflow-hidden rounded-2xl bg-coal shadow-md ring-1 ring-olive/25 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:ring-olive/60 ${className}`}
       onClick={() => toggleMute()}
     >
       <video
@@ -99,19 +99,19 @@ export function VideoCard({ src, aspect = "portrait", className = "" }: VideoCar
         onClick={toggleMute}
         className={`absolute bottom-3 right-3 flex h-11 w-11 items-center justify-center rounded-full text-white shadow-md backdrop-blur-sm transition-all duration-300 hover:scale-110 sm:h-11 sm:w-11 ${
           muted
-            ? "bg-black/60 hover:bg-[#778667]"
-            : "bg-[#778667] ring-2 ring-white/70 hover:bg-[#5f6d52]"
+            ? "bg-black/60 hover:bg-olive"
+            : "bg-olive ring-2 ring-white/70 hover:bg-olive-dark"
         }`}
       >
         {muted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
       </button>
       {!muted && (
-        <span className="pointer-events-none absolute bottom-4 left-3 animate-pulse rounded-full bg-[#778667]/90 px-3 py-1 text-xs font-medium text-white shadow-sm">
+        <span className="pointer-events-none absolute bottom-4 left-3 animate-pulse rounded-full bg-olive/90 px-3 py-1 text-xs font-medium text-white shadow-sm">
           Sound on
         </span>
       )}
       {!inView && (
-        <div className="pointer-events-none absolute inset-0 bg-[#778667]/10 transition-opacity" />
+        <div className="pointer-events-none absolute inset-0 bg-olive/10 transition-opacity" />
       )}
     </div>
   );

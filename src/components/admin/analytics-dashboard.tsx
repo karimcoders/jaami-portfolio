@@ -172,20 +172,20 @@ function StatCard({
   return (
     <div
       className={cn(
-        "rounded-2xl bg-white p-4 shadow-sm ring-1 ring-[#778667]/20 sm:p-5",
-        accent && "ring-2 ring-[#778667]"
+        "rounded-2xl bg-white p-4 shadow-sm ring-1 ring-olive/20 sm:p-5",
+        accent && "ring-2 ring-olive"
       )}
     >
-      <div className="flex items-center gap-2 text-[#778667]">
+      <div className="flex items-center gap-2 text-olive">
         {icon}
         <span className="text-[11px] font-semibold uppercase tracking-[0.18em]">
           {label}
         </span>
       </div>
-      <p className="font-display font-wonk mt-2 text-3xl font-semibold text-[#4a5442] sm:text-4xl">
+      <p className="font-display font-wonk mt-2 text-3xl font-semibold text-ink sm:text-4xl">
         {value}
       </p>
-      {sub && <p className="font-accent mt-1 text-xs italic text-[#778667]">{sub}</p>}
+      {sub && <p className="font-accent mt-1 text-xs italic text-olive">{sub}</p>}
     </div>
   );
 }
@@ -203,27 +203,27 @@ function BarList({
 }) {
   const max = Math.max(1, ...rows.map((r) => r.views));
   return (
-    <div className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-[#778667]/20 sm:p-5">
-      <h3 className="font-display font-wonk text-lg font-semibold text-[#4a5442]">
+    <div className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-olive/20 sm:p-5">
+      <h3 className="font-display font-wonk text-lg font-semibold text-ink">
         {title}
       </h3>
       {rows.length === 0 ? (
-        <p className="mt-3 text-sm text-[#4a5442]/50">{emptyText}</p>
+        <p className="mt-3 text-sm text-ink/50">{emptyText}</p>
       ) : (
         <ul className="mt-3 space-y-2.5">
           {rows.map((row) => (
             <li key={row.name}>
               <div className="flex items-baseline justify-between gap-3 text-sm">
-                <span className="truncate text-[#4a5442]">
+                <span className="truncate text-ink">
                   {renderName ? renderName(row.name) : row.name}
                 </span>
-                <span className="font-accent shrink-0 italic text-[#778667]">
+                <span className="font-accent shrink-0 italic text-olive">
                   {row.views}
                 </span>
               </div>
-              <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-[#778667]/10">
+              <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-olive/10">
                 <div
-                  className="h-full rounded-full bg-[#778667]/70"
+                  className="h-full rounded-full bg-olive/70"
                   style={{ width: `${(row.views / max) * 100}%` }}
                 />
               </div>
@@ -247,11 +247,11 @@ function Card({
   return (
     <div
       className={cn(
-        "rounded-2xl bg-white p-4 shadow-sm ring-1 ring-[#778667]/20 sm:p-5",
+        "rounded-2xl bg-white p-4 shadow-sm ring-1 ring-olive/20 sm:p-5",
         className
       )}
     >
-      <h3 className="font-display font-wonk text-lg font-semibold text-[#4a5442]">
+      <h3 className="font-display font-wonk text-lg font-semibold text-ink">
         {title}
       </h3>
       {children}
@@ -305,20 +305,20 @@ export function AnalyticsDashboard() {
       {/* Header row: title + range selector + refresh */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
-          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#778667] text-[#eef3e5]">
+          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-olive text-mist">
             <BarChart3 className="h-5 w-5" />
           </span>
           <div>
-            <h2 className="font-display font-wonk text-2xl font-semibold text-[#4a5442]">
+            <h2 className="font-display font-wonk text-2xl font-semibold text-ink">
               Visitor Analytics
             </h2>
-            <p className="text-xs text-[#778667]">
+            <p className="text-xs text-olive">
               Kaun aa raha hai, kahan se, kya kar raha hai — sab yahan
             </p>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <div className="flex rounded-full bg-[#778667]/10 p-1">
+          <div className="flex rounded-full bg-olive/10 p-1">
             {RANGES.map((r) => (
               <button
                 key={r.key}
@@ -327,8 +327,8 @@ export function AnalyticsDashboard() {
                 className={cn(
                   "rounded-full px-3 py-1.5 text-xs font-medium transition-colors",
                   range === r.key
-                    ? "bg-[#778667] text-white shadow-sm"
-                    : "text-[#4a5442] hover:text-[#778667]"
+                    ? "bg-olive text-white shadow-sm"
+                    : "text-ink hover:text-olive"
                 )}
               >
                 {r.label}
@@ -339,7 +339,7 @@ export function AnalyticsDashboard() {
             variant="outline"
             size="icon"
             aria-label="Refresh analytics"
-            className="h-9 w-9 shrink-0 rounded-full border-[#778667]/40 text-[#4a5442] hover:bg-[#778667]/10"
+            className="h-9 w-9 shrink-0 rounded-full border-olive/40 text-ink hover:bg-olive/10"
             onClick={() => load(range)}
           >
             <RefreshCw className={cn("h-4 w-4", loading && "animate-spin")} />
@@ -354,7 +354,7 @@ export function AnalyticsDashboard() {
       )}
 
       {loading && !data ? (
-        <div className="flex min-h-64 items-center justify-center text-[#778667]">
+        <div className="flex min-h-64 items-center justify-center text-olive">
           <div className="flex flex-col items-center gap-2">
             <Loader2 className="h-7 w-7 animate-spin" />
             <p className="font-accent italic">Loading analytics…</p>
@@ -373,13 +373,13 @@ export function AnalyticsDashboard() {
                       "absolute inline-flex h-full w-full rounded-full opacity-75",
                       totals.liveVisitors > 0
                         ? "animate-ping bg-green-500"
-                        : "bg-[#778667]"
+                        : "bg-olive"
                     )}
                   />
                   <span
                     className={cn(
                       "relative inline-flex h-2.5 w-2.5 rounded-full",
-                      totals.liveVisitors > 0 ? "bg-green-500" : "bg-[#778667]"
+                      totals.liveVisitors > 0 ? "bg-green-500" : "bg-olive"
                     )}
                   />
                 </span>
@@ -479,25 +479,25 @@ export function AnalyticsDashboard() {
             }
           >
             {data.live.length === 0 ? (
-              <p className="mt-3 text-sm text-[#4a5442]/50">
+              <p className="mt-3 text-sm text-ink/50">
                 Abhi koi active nahi hai. Jab koi site kholega, yahan real-time
                 dikhega.
               </p>
             ) : (
-              <ul className="mt-3 divide-y divide-[#778667]/10">
+              <ul className="mt-3 divide-y divide-olive/10">
                 {data.live.map((v) => (
                   <li key={v.id} className="flex flex-wrap items-center gap-x-3 gap-y-1 py-2.5 text-sm">
                     <span className="relative flex h-2 w-2 shrink-0">
                       <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-500 opacity-75" />
                       <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
                     </span>
-                    <span className="font-medium text-[#4a5442]">
+                    <span className="font-medium text-ink">
                       {v.city || v.country}
                       {v.countryCode ? ` ${flag(v.countryCode)}` : ""}
                     </span>
-                    <span className="text-[#778667]">· {v.device} · {v.browser}</span>
-                    <span className="text-[#4a5442]/60">· {v.path}</span>
-                    <span className="font-accent ml-auto italic text-[#778667]">
+                    <span className="text-olive">· {v.device} · {v.browser}</span>
+                    <span className="text-ink/60">· {v.path}</span>
+                    <span className="font-accent ml-auto italic text-olive">
                       {timeAgo(v.createdAt)}
                     </span>
                   </li>
@@ -544,7 +544,7 @@ export function AnalyticsDashboard() {
           <div className="grid gap-4 md:grid-cols-2">
             <Card title="Countries">
               {data.countries.length === 0 ? (
-                <p className="mt-3 text-sm text-[#4a5442]/50">
+                <p className="mt-3 text-sm text-ink/50">
                   Country data abhi available nahi.
                 </p>
               ) : (
@@ -554,19 +554,19 @@ export function AnalyticsDashboard() {
                     return (
                       <li key={c.country}>
                         <div className="flex items-baseline justify-between gap-3 text-sm">
-                          <span className="truncate text-[#4a5442]">
+                          <span className="truncate text-ink">
                             {flag(c.countryCode)} {c.country}
-                            <span className="font-accent ml-2 text-xs italic text-[#778667]">
+                            <span className="font-accent ml-2 text-xs italic text-olive">
                               {c.visitors} visitor{c.visitors === 1 ? "" : "s"}
                             </span>
                           </span>
-                          <span className="font-accent shrink-0 italic text-[#778667]">
+                          <span className="font-accent shrink-0 italic text-olive">
                             {c.views}
                           </span>
                         </div>
-                        <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-[#778667]/10">
+                        <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-olive/10">
                           <div
-                            className="h-full rounded-full bg-[#778667]/70"
+                            className="h-full rounded-full bg-olive/70"
                             style={{ width: `${(c.views / max) * 100}%` }}
                           />
                         </div>
@@ -578,24 +578,24 @@ export function AnalyticsDashboard() {
             </Card>
             <Card title="What visitors did (events)">
               {data.topEvents.length === 0 ? (
-                <p className="mt-3 text-sm text-[#4a5442]/50">
+                <p className="mt-3 text-sm text-ink/50">
                   Abhi tak koi interaction nahi — jab koi video play ya button
                   click karega, yahan dikhega.
                 </p>
               ) : (
-                <ul className="mt-3 divide-y divide-[#778667]/10">
+                <ul className="mt-3 divide-y divide-olive/10">
                   {data.topEvents.map((e, i) => (
                     <li key={`${e.name}-${e.label}-${i}`} className="flex items-center gap-3 py-2.5 text-sm">
-                      <MousePointerClick className="h-4 w-4 shrink-0 text-[#778667]" />
+                      <MousePointerClick className="h-4 w-4 shrink-0 text-olive" />
                       <div className="min-w-0 flex-1">
-                        <p className="font-medium text-[#4a5442]">
+                        <p className="font-medium text-ink">
                           {EVENT_LABELS[e.name] ?? e.name}
                         </p>
                         {e.label && (
-                          <p className="truncate text-xs text-[#778667]">{e.label}</p>
+                          <p className="truncate text-xs text-olive">{e.label}</p>
                         )}
                       </div>
-                      <span className="font-accent shrink-0 rounded-full bg-[#778667]/10 px-2.5 py-0.5 text-xs italic text-[#5f6d52]">
+                      <span className="font-accent shrink-0 rounded-full bg-olive/10 px-2.5 py-0.5 text-xs italic text-olive-dark">
                         ×{e.count}
                       </span>
                     </li>
@@ -609,20 +609,20 @@ export function AnalyticsDashboard() {
           <Card
             title={
               <span className="flex items-center gap-2">
-                <History className="h-4 w-4 text-[#778667]" />
+                <History className="h-4 w-4 text-olive" />
                 Recent visitors
               </span>
             }
           >
             {data.recent.length === 0 ? (
-              <p className="mt-3 text-sm text-[#4a5442]/50">
+              <p className="mt-3 text-sm text-ink/50">
                 Abhi tak koi visit nahi hui.
               </p>
             ) : (
               <div className="mt-3 overflow-x-auto">
                 <table className="w-full min-w-[640px] text-left text-sm">
                   <thead>
-                    <tr className="border-b border-[#778667]/15 text-[11px] uppercase tracking-wider text-[#778667]">
+                    <tr className="border-b border-olive/15 text-[11px] uppercase tracking-wider text-olive">
                       <th className="py-2 pr-3 font-semibold">When</th>
                       <th className="py-2 pr-3 font-semibold">Location</th>
                       <th className="py-2 pr-3 font-semibold">Device</th>
@@ -631,9 +631,9 @@ export function AnalyticsDashboard() {
                       <th className="py-2 font-semibold">Time spent</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-[#778667]/8">
+                  <tbody className="divide-y divide-olive/8">
                     {data.recent.map((v, i) => (
-                      <tr key={`${v.createdAt}-${i}`} className="text-[#4a5442]">
+                      <tr key={`${v.createdAt}-${i}`} className="text-ink">
                         <td className="py-2.5 pr-3 whitespace-nowrap">
                           {timeAgo(v.createdAt)}
                         </td>
@@ -641,12 +641,12 @@ export function AnalyticsDashboard() {
                           {v.city || v.country}
                           {v.countryCode ? ` ${flag(v.countryCode)}` : ""}
                         </td>
-                        <td className="py-2.5 pr-3 whitespace-nowrap text-[#778667]">
+                        <td className="py-2.5 pr-3 whitespace-nowrap text-olive">
                           {v.device === "Mobile" ? "📱" : v.device === "Tablet" ? "📟" : "💻"}{" "}
                           {v.browser}
                         </td>
                         <td className="py-2.5 pr-3">
-                          <Globe2 className="mr-1 inline h-3.5 w-3.5 text-[#778667]" />
+                          <Globe2 className="mr-1 inline h-3.5 w-3.5 text-olive" />
                           {v.referrerHost}
                         </td>
                         <td className="py-2.5 pr-3 font-medium">{v.path}</td>
@@ -661,7 +661,7 @@ export function AnalyticsDashboard() {
             )}
           </Card>
 
-          <p className="text-center text-xs text-[#4a5442]/50">
+          <p className="text-center text-xs text-ink/50">
             Data har 30 second me auto-refresh hota hai · Times IST ke hisaab se
           </p>
         </>

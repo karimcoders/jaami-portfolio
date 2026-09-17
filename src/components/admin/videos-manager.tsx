@@ -103,26 +103,26 @@ export function VideosManager({
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="font-display font-wonk text-xl font-semibold text-[#4a5442] sm:text-2xl">
+          <h2 className="font-display font-wonk text-xl font-semibold text-ink sm:text-2xl">
             {TYPE_LABEL[type]} videos
           </h2>
-          <p className="text-sm text-[#4a5442]/70">
+          <p className="text-sm text-ink/70">
             {videos.length} video{videos.length === 1 ? "" : "s"} — order, visibility aur
             content yahan manage karein.
           </p>
         </div>
         <Button
           onClick={() => setAddOpen(true)}
-          className="h-11 rounded-xl bg-[#778667] px-5 hover:bg-[#5f6d52]"
+          className="h-11 rounded-xl bg-olive px-5 hover:bg-olive-dark"
         >
           <Plus className="h-4 w-4" /> Add video
         </Button>
       </div>
 
       {videos.length === 0 ? (
-        <div className="rounded-2xl bg-white p-10 text-center shadow-sm ring-1 ring-[#778667]/20">
-          <Clapperboard className="mx-auto mb-3 h-10 w-10 text-[#778667]/50" />
-          <p className="font-accent text-lg italic text-[#4a5442]/70">
+        <div className="rounded-2xl bg-white p-10 text-center shadow-sm ring-1 ring-olive/20">
+          <Clapperboard className="mx-auto mb-3 h-10 w-10 text-olive/50" />
+          <p className="font-accent text-lg italic text-ink/70">
             Abhi koi video nahi hai — pehli video add karein!
           </p>
         </div>
@@ -131,12 +131,12 @@ export function VideosManager({
           {videos.map((video, i) => (
             <li
               key={video.id}
-              className={`flex items-center gap-3 rounded-2xl bg-white p-3 shadow-sm ring-1 ring-[#778667]/20 transition-opacity ${
+              className={`flex items-center gap-3 rounded-2xl bg-white p-3 shadow-sm ring-1 ring-olive/20 transition-opacity ${
                 video.visible ? "" : "opacity-60"
               } ${busyId === video.id ? "pointer-events-none" : ""}`}
             >
               {/* preview */}
-              <div className="h-16 w-11 shrink-0 overflow-hidden rounded-lg bg-[#15180f] sm:h-20 sm:w-14">
+              <div className="h-16 w-11 shrink-0 overflow-hidden rounded-lg bg-coal sm:h-20 sm:w-14">
                 <video
                   src={video.src}
                   muted
@@ -145,7 +145,7 @@ export function VideosManager({
                   className={`h-full w-full object-cover ${type === "long" ? "hidden" : ""}`}
                 />
                 {type === "long" && (
-                  <div className="flex h-full items-center justify-center text-[#778667]">
+                  <div className="flex h-full items-center justify-center text-olive">
                     <Clapperboard className="h-5 w-5" />
                   </div>
                 )}
@@ -153,11 +153,11 @@ export function VideosManager({
 
               {/* info */}
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-medium text-[#4a5442]">
+                <p className="truncate text-sm font-medium text-ink">
                   {video.title || `Video ${i + 1}`}
                 </p>
-                <p className="truncate text-xs text-[#4a5442]/50">{video.src}</p>
-                <span className="mt-1 inline-flex items-center gap-1 rounded-full bg-[#778667]/10 px-2 py-0.5 text-[11px] font-medium text-[#5f6d52]">
+                <p className="truncate text-xs text-ink/50">{video.src}</p>
+                <span className="mt-1 inline-flex items-center gap-1 rounded-full bg-olive/10 px-2 py-0.5 text-[11px] font-medium text-olive-dark">
                   {video.visible ? (
                     <>
                       <Eye className="h-3 w-3" /> Live
@@ -179,7 +179,7 @@ export function VideosManager({
                     aria-label="Move up"
                     disabled={i === 0}
                     onClick={() => move(i, -1)}
-                    className="h-7 w-7 rounded-lg text-[#4a5442] hover:bg-[#778667]/15"
+                    className="h-7 w-7 rounded-lg text-ink hover:bg-olive/15"
                   >
                     <ChevronUp className="h-4 w-4" />
                   </Button>
@@ -189,7 +189,7 @@ export function VideosManager({
                     aria-label="Move down"
                     disabled={i === videos.length - 1}
                     onClick={() => move(i, 1)}
-                    className="h-7 w-7 rounded-lg text-[#4a5442] hover:bg-[#778667]/15"
+                    className="h-7 w-7 rounded-lg text-ink hover:bg-olive/15"
                   >
                     <ChevronDown className="h-4 w-4" />
                   </Button>
@@ -198,14 +198,14 @@ export function VideosManager({
                   checked={video.visible}
                   onCheckedChange={() => toggleVisible(video)}
                   aria-label="Toggle visibility"
-                  className="data-[state=checked]:bg-[#778667]"
+                  className="data-[state=checked]:bg-olive"
                 />
                 <Button
                   variant="ghost"
                   size="icon"
                   aria-label="Edit video"
                   onClick={() => setEditing(video)}
-                  className="h-9 w-9 rounded-lg text-[#4a5442] hover:bg-[#778667]/15"
+                  className="h-9 w-9 rounded-lg text-ink hover:bg-olive/15"
                 >
                   <Pencil className="h-4 w-4" />
                 </Button>
@@ -355,7 +355,7 @@ function AddVideoDialog({
 
         <div className="space-y-4">
           <div className="space-y-1.5">
-            <Label htmlFor="add-title" className="text-[#4a5442]">
+            <Label htmlFor="add-title" className="text-ink">
               Title (optional, sirf aapke liye)
             </Label>
             <Input
@@ -363,17 +363,17 @@ function AddVideoDialog({
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g. Fashion reel — Sept"
-              className="h-11 rounded-xl border-[#778667]/30 focus-visible:ring-[#778667]"
+              className="h-11 rounded-xl border-olive/30 focus-visible:ring-olive"
             />
           </div>
 
           {/* mode switch */}
-          <div className="grid grid-cols-2 gap-1 rounded-xl bg-[#778667]/10 p-1">
+          <div className="grid grid-cols-2 gap-1 rounded-xl bg-olive/10 p-1">
             <button
               type="button"
               onClick={() => setMode("upload")}
               className={`flex h-9 items-center justify-center gap-1.5 rounded-lg text-sm font-medium transition-colors ${
-                mode === "upload" ? "bg-[#778667] text-white" : "text-[#4a5442]"
+                mode === "upload" ? "bg-olive text-white" : "text-ink"
               }`}
             >
               <UploadCloud className="h-4 w-4" /> Upload
@@ -382,7 +382,7 @@ function AddVideoDialog({
               type="button"
               onClick={() => setMode("link")}
               className={`flex h-9 items-center justify-center gap-1.5 rounded-lg text-sm font-medium transition-colors ${
-                mode === "link" ? "bg-[#778667] text-white" : "text-[#4a5442]"
+                mode === "link" ? "bg-olive text-white" : "text-ink"
               }`}
             >
               <Link2 className="h-4 w-4" /> Paste link
@@ -405,15 +405,15 @@ function AddVideoDialog({
               <button
                 type="button"
                 onClick={() => fileRef.current?.click()}
-                className="flex h-32 w-full flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-[#778667]/40 bg-[#778667]/5 text-[#5f6d52] transition-colors hover:bg-[#778667]/10"
+                className="flex h-32 w-full flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-olive/40 bg-olive/5 text-olive-dark transition-colors hover:bg-olive/10"
               >
                 {progress !== null ? (
                   <>
                     <Loader2 className="h-7 w-7 animate-spin" />
                     <p className="text-sm font-medium">Uploading… {progress}%</p>
-                    <div className="h-1.5 w-40 overflow-hidden rounded-full bg-[#778667]/20">
+                    <div className="h-1.5 w-40 overflow-hidden rounded-full bg-olive/20">
                       <div
-                        className="h-full rounded-full bg-[#778667] transition-all"
+                        className="h-full rounded-full bg-olive transition-all"
                         style={{ width: `${progress}%` }}
                       />
                     </div>
@@ -427,7 +427,7 @@ function AddVideoDialog({
                       preload="metadata"
                       className="max-h-24 rounded-lg"
                     />
-                    <p className="text-sm font-medium text-[#5f6d52]">
+                    <p className="text-sm font-medium text-olive-dark">
                       Ready{duration ? ` • ${duration}` : ""} — tap to replace
                     </p>
                   </>
@@ -435,14 +435,14 @@ function AddVideoDialog({
                   <>
                     <UploadCloud className="h-7 w-7" />
                     <p className="text-sm font-medium">Tap to choose video</p>
-                    <p className="text-xs text-[#4a5442]/60">MP4 / MOV / WebM — max 300MB</p>
+                    <p className="text-xs text-ink/60">MP4 / MOV / WebM — max 300MB</p>
                   </>
                 )}
               </button>
             </div>
           ) : (
             <div className="space-y-1.5">
-              <Label htmlFor="add-link" className="text-[#4a5442]">
+              <Label htmlFor="add-link" className="text-ink">
                 Video URL (direct .mp4 link)
               </Label>
               <Input
@@ -450,9 +450,9 @@ function AddVideoDialog({
                 value={linkInput}
                 onChange={(e) => setLinkInput(e.target.value)}
                 placeholder="https://example.com/video.mp4"
-                className="h-11 rounded-xl border-[#778667]/30 focus-visible:ring-[#778667]"
+                className="h-11 rounded-xl border-olive/30 focus-visible:ring-olive"
               />
-              <p className="text-xs text-[#4a5442]/60">
+              <p className="text-xs text-ink/60">
                 Google Drive/Dropbox links nahi chalenge — direct video file link chahiye.
               </p>
             </div>
@@ -461,7 +461,7 @@ function AddVideoDialog({
           <Button
             onClick={save}
             disabled={progress !== null}
-            className="h-11 w-full rounded-xl bg-[#778667] hover:bg-[#5f6d52]"
+            className="h-11 w-full rounded-xl bg-olive hover:bg-olive-dark"
           >
             Add video
           </Button>
@@ -552,19 +552,19 @@ function EditVideoDialog({
 
         <div className="space-y-4">
           <div className="space-y-1.5">
-            <Label htmlFor="edit-title" className="text-[#4a5442]">
+            <Label htmlFor="edit-title" className="text-ink">
               Title (optional)
             </Label>
             <Input
               id="edit-title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="h-11 rounded-xl border-[#778667]/30 focus-visible:ring-[#778667]"
+              className="h-11 rounded-xl border-olive/30 focus-visible:ring-olive"
             />
           </div>
 
           <div className="space-y-1.5">
-            <Label className="text-[#4a5442]">Replace video file</Label>
+            <Label className="text-ink">Replace video file</Label>
             <input
               ref={fileRef}
               type="file"
@@ -579,7 +579,7 @@ function EditVideoDialog({
             <button
               type="button"
               onClick={() => fileRef.current?.click()}
-              className="flex h-24 w-full flex-col items-center justify-center gap-1.5 rounded-xl border-2 border-dashed border-[#778667]/40 bg-[#778667]/5 text-[#5f6d52] transition-colors hover:bg-[#778667]/10"
+              className="flex h-24 w-full flex-col items-center justify-center gap-1.5 rounded-xl border-2 border-dashed border-olive/40 bg-olive/5 text-olive-dark transition-colors hover:bg-olive/10"
             >
               {progress !== null ? (
                 <>
@@ -611,7 +611,7 @@ function EditVideoDialog({
           <Button
             onClick={save}
             disabled={busy || progress !== null}
-            className="h-11 w-full rounded-xl bg-[#778667] hover:bg-[#5f6d52]"
+            className="h-11 w-full rounded-xl bg-olive hover:bg-olive-dark"
           >
             {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : "Save changes"}
           </Button>

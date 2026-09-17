@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Poppins, Fraunces, Playfair_Display } from "next/font/google";
+import { Geist, Poppins, Fraunces, Playfair_Display, DM_Serif_Display } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { AnalyticsTracker } from "@/components/analytics/tracker";
+import { getSeo, getThemeCss } from "@/lib/cms";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,39 +28,57 @@ const playfair = Playfair_Display({
   style: ["normal", "italic"],
 });
 
-export const metadata: Metadata = {
-  title: "JAAMI | Creative Video Editor",
-  description:
-    "Creative and detail-oriented short form & long form video editor with 2 years of experience specializing in storytelling and visual communication. Turning raw ideas into scroll-stopping content.",
-  keywords: [
-    "JAAMI",
-    "video editor",
-    "creative video editor",
-    "short form editing",
-    "long form editing",
-    "reels editor",
-    "jaami.visuals",
-  ],
-  authors: [{ name: "JAAMI" }],
-  openGraph: {
-    title: "JAAMI | Creative Video Editor",
-    description:
-      "Short form & long form video editing portfolio — turning raw ideas into scroll-stopping content.",
-    siteName: "JAAMI Visuals",
-    type: "website",
-  },
-};
+const dmSerif = DM_Serif_Display({
+  variable: "--font-dmserif",
+  subsets: ["latin"],
+  weight: "400",
+  style: "normal",
+});
 
-export default function RootLayout({
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getSeo();
+  return {
+    title: seo.title,
+    description: seo.description,
+    keywords: [
+      "JAAMI",
+      "video editor",
+      "creative video editor",
+      "short form editing",
+      "long form editing",
+      "reels editor",
+      "jaami.visuals",
+    ],
+    authors: [{ name: "JAAMI" }],
+    openGraph: {
+      title: seo.title,
+      description: seo.description,
+      siteName: "JAAMI Visuals",
+      type: "website",
+    },
+    ...(seo.faviconUrl ? { icons: [{ rel: "icon", url: seo.faviconUrl }] } : {}),
+  };
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const themeCss = await getThemeCss();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${poppins.variable} ${fraunces.variable} ${playfair.variable} antialiased bg-background text-foreground`}
+        className={`${geistSans.variable} ${poppins.variable} ${fraunces.variable} ${playfair.variable} ${dmSerif.variable} antialiased bg-background text-foreground`}
       >
+        {themeCss ? (
+          <style
+            // Editable theme (colors + fonts) from the admin Design tab.
+            // Rendered first in <body> so it overrides the stylesheet defaults.
+            dangerouslySetInnerHTML={{ __html: themeCss }}
+          />
+        ) : null}
         <AnalyticsTracker />
         {children}
         <Toaster />

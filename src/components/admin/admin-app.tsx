@@ -12,6 +12,8 @@ import {
   UserRound,
   Phone,
   BarChart3,
+  Palette,
+  Files,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,6 +24,8 @@ import { ProfileForm } from "./profile-form";
 import { VideosManager } from "./videos-manager";
 import { ContactsManager } from "./contacts-manager";
 import { PasswordForm } from "./password-form";
+import { DesignForm } from "./design-form";
+import { PagesManager } from "./pages-manager";
 import { AnalyticsDashboard } from "./analytics-dashboard";
 import type { AdminData } from "./types";
 
@@ -65,8 +69,8 @@ export function AdminApp() {
 
   if (status === "loading") {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#eef3e5]">
-        <div className="flex flex-col items-center gap-3 text-[#778667]">
+      <div className="flex min-h-screen items-center justify-center bg-mist">
+        <div className="flex flex-col items-center gap-3 text-olive">
           <Loader2 className="h-8 w-8 animate-spin" />
           <p className="font-accent text-lg italic">Loading studio…</p>
         </div>
@@ -79,19 +83,19 @@ export function AdminApp() {
   }
 
   return (
-    <div className="min-h-screen bg-[#eef3e5]">
+    <div className="min-h-screen bg-mist">
       {/* Top bar */}
-      <header className="sticky top-0 z-40 border-b border-[#778667]/20 bg-[#eef3e5]/95 backdrop-blur-md">
+      <header className="sticky top-0 z-40 border-b border-olive/20 bg-mist/95 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-5xl items-center justify-between gap-3 px-4 sm:px-6">
           <div className="flex items-center gap-2.5">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#778667] text-[#eef3e5]">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-olive text-mist">
               <LayoutDashboard className="h-4.5 w-4.5" />
             </span>
             <div className="leading-tight">
-              <p className="font-display font-wonk text-xl font-semibold tracking-wide text-[#4a5442]">
+              <p className="font-display font-wonk text-xl font-semibold tracking-wide text-ink">
                 {data?.settings.name ?? "JAAMI"} Studio
               </p>
-              <p className="text-[11px] uppercase tracking-[0.25em] text-[#778667]">
+              <p className="text-[11px] uppercase tracking-[0.25em] text-olive">
                 Content Manager
               </p>
             </div>
@@ -101,7 +105,7 @@ export function AdminApp() {
               asChild
               variant="outline"
               size="sm"
-              className="h-9 rounded-full border-[#778667]/40 text-[#4a5442] hover:bg-[#778667]/10"
+              className="h-9 rounded-full border-olive/40 text-ink hover:bg-olive/10"
             >
               <a href="/" target="_blank" rel="noopener noreferrer">
                 <ExternalLink className="h-4 w-4" />
@@ -112,7 +116,7 @@ export function AdminApp() {
               variant="outline"
               size="sm"
               onClick={handleLogout}
-              className="h-9 rounded-full border-[#778667]/40 text-[#4a5442] hover:bg-[#778667]/10"
+              className="h-9 rounded-full border-olive/40 text-ink hover:bg-olive/10"
             >
               <LogOut className="h-4 w-4" />
               <span className="hidden sm:inline">Logout</span>
@@ -124,40 +128,52 @@ export function AdminApp() {
       <main className="mx-auto max-w-5xl px-4 py-6 sm:px-6 sm:py-10">
         {data && (
           <Tabs defaultValue="profile">
-            <TabsList className="mb-6 flex h-auto w-full justify-start gap-1 overflow-x-auto rounded-2xl bg-[#778667]/10 p-1.5">
+            <TabsList className="mb-6 flex h-auto w-full justify-start gap-1 overflow-x-auto rounded-2xl bg-olive/10 p-1.5">
               <TabsTrigger
                 value="profile"
-                className="gap-1.5 rounded-xl px-3 py-2 text-xs data-[state=active]:bg-[#778667] data-[state=active]:text-white sm:px-4 sm:text-sm"
+                className="gap-1.5 rounded-xl px-3 py-2 text-xs data-[state=active]:bg-olive data-[state=active]:text-white sm:px-4 sm:text-sm"
               >
                 <UserRound className="h-4 w-4" /> Profile
               </TabsTrigger>
               <TabsTrigger
                 value="short"
-                className="gap-1.5 rounded-xl px-3 py-2 text-xs data-[state=active]:bg-[#778667] data-[state=active]:text-white sm:px-4 sm:text-sm"
+                className="gap-1.5 rounded-xl px-3 py-2 text-xs data-[state=active]:bg-olive data-[state=active]:text-white sm:px-4 sm:text-sm"
               >
                 <Clapperboard className="h-4 w-4" /> Short ({data.videos.filter((v) => v.type === "short").length})
               </TabsTrigger>
               <TabsTrigger
                 value="long"
-                className="gap-1.5 rounded-xl px-3 py-2 text-xs data-[state=active]:bg-[#778667] data-[state=active]:text-white sm:px-4 sm:text-sm"
+                className="gap-1.5 rounded-xl px-3 py-2 text-xs data-[state=active]:bg-olive data-[state=active]:text-white sm:px-4 sm:text-sm"
               >
                 <Film className="h-4 w-4" /> Long ({data.videos.filter((v) => v.type === "long").length})
               </TabsTrigger>
               <TabsTrigger
                 value="contact"
-                className="gap-1.5 rounded-xl px-3 py-2 text-xs data-[state=active]:bg-[#778667] data-[state=active]:text-white sm:px-4 sm:text-sm"
+                className="gap-1.5 rounded-xl px-3 py-2 text-xs data-[state=active]:bg-olive data-[state=active]:text-white sm:px-4 sm:text-sm"
               >
                 <Phone className="h-4 w-4" /> Contact
               </TabsTrigger>
               <TabsTrigger
+                value="pages"
+                className="gap-1.5 rounded-xl px-3 py-2 text-xs data-[state=active]:bg-olive data-[state=active]:text-white sm:px-4 sm:text-sm"
+              >
+                <Files className="h-4 w-4" /> Pages ({data.pages.length})
+              </TabsTrigger>
+              <TabsTrigger
+                value="design"
+                className="gap-1.5 rounded-xl px-3 py-2 text-xs data-[state=active]:bg-olive data-[state=active]:text-white sm:px-4 sm:text-sm"
+              >
+                <Palette className="h-4 w-4" /> Design
+              </TabsTrigger>
+              <TabsTrigger
                 value="analytics"
-                className="gap-1.5 rounded-xl px-3 py-2 text-xs data-[state=active]:bg-[#778667] data-[state=active]:text-white sm:px-4 sm:text-sm"
+                className="gap-1.5 rounded-xl px-3 py-2 text-xs data-[state=active]:bg-olive data-[state=active]:text-white sm:px-4 sm:text-sm"
               >
                 <BarChart3 className="h-4 w-4" /> Analytics
               </TabsTrigger>
               <TabsTrigger
                 value="account"
-                className="gap-1.5 rounded-xl px-3 py-2 text-xs data-[state=active]:bg-[#778667] data-[state=active]:text-white sm:px-4 sm:text-sm"
+                className="gap-1.5 rounded-xl px-3 py-2 text-xs data-[state=active]:bg-olive data-[state=active]:text-white sm:px-4 sm:text-sm"
               >
                 <LockKeyhole className="h-4 w-4" /> Account
               </TabsTrigger>
@@ -182,6 +198,12 @@ export function AdminApp() {
             </TabsContent>
             <TabsContent value="contact">
               <ContactsManager contacts={data.contacts} onRefresh={refresh} />
+            </TabsContent>
+            <TabsContent value="pages">
+              <PagesManager pages={data.pages} onRefresh={refresh} />
+            </TabsContent>
+            <TabsContent value="design">
+              <DesignForm settings={data.settings} />
             </TabsContent>
             <TabsContent value="analytics">
               <AnalyticsDashboard />
@@ -226,31 +248,31 @@ function LoginScreen({ onLoggedIn }: { onLoggedIn: () => void }) {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#eef3e5] px-4">
+    <div className="flex min-h-screen items-center justify-center bg-mist px-4">
       <div
         aria-hidden
-        className="pointer-events-none fixed -left-24 top-16 h-72 w-72 rounded-full bg-[#778667]/15 blur-3xl"
+        className="pointer-events-none fixed -left-24 top-16 h-72 w-72 rounded-full bg-olive/15 blur-3xl"
       />
       <div
         aria-hidden
-        className="pointer-events-none fixed -right-16 bottom-10 h-80 w-80 rounded-full bg-[#778667]/20 blur-3xl"
+        className="pointer-events-none fixed -right-16 bottom-10 h-80 w-80 rounded-full bg-olive/20 blur-3xl"
       />
-      <div className="relative w-full max-w-sm rounded-3xl bg-white p-8 shadow-xl ring-1 ring-[#778667]/20">
+      <div className="relative w-full max-w-sm rounded-3xl bg-white p-8 shadow-xl ring-1 ring-olive/20">
         <div className="mb-6 text-center">
-          <span className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#778667] text-[#eef3e5] shadow-md">
+          <span className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-olive text-mist shadow-md">
             <LockKeyhole className="h-6 w-6" />
           </span>
-          <h1 className="font-display font-wonk text-3xl font-semibold tracking-tight text-[#4a5442]">
+          <h1 className="font-display font-wonk text-3xl font-semibold tracking-tight text-ink">
             JAAMI Studio
           </h1>
-          <p className="font-accent mt-1 text-sm italic text-[#778667]">
+          <p className="font-accent mt-1 text-sm italic text-olive">
             Portfolio content manager
           </p>
         </div>
 
         <form onSubmit={submit} className="space-y-4">
           <div className="space-y-1.5">
-            <Label htmlFor="password" className="text-[#4a5442]">
+            <Label htmlFor="password" className="text-ink">
               Admin password
             </Label>
             <div className="relative">
@@ -261,12 +283,12 @@ function LoginScreen({ onLoggedIn }: { onLoggedIn: () => void }) {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter your password"
                 autoFocus
-                className="h-11 rounded-xl border-[#778667]/30 pr-16 focus-visible:ring-[#778667]"
+                className="h-11 rounded-xl border-olive/30 pr-16 focus-visible:ring-olive"
               />
               <button
                 type="button"
                 onClick={() => setShow((s) => !s)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-[#778667] hover:text-[#5f6d52]"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-olive hover:text-olive-dark"
               >
                 {show ? "Hide" : "Show"}
               </button>
@@ -282,13 +304,13 @@ function LoginScreen({ onLoggedIn }: { onLoggedIn: () => void }) {
           <Button
             type="submit"
             disabled={busy || !password}
-            className="h-11 w-full rounded-xl bg-[#778667] text-base hover:bg-[#5f6d52]"
+            className="h-11 w-full rounded-xl bg-olive text-base hover:bg-olive-dark"
           >
             {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : "Sign in"}
           </Button>
         </form>
 
-        <p className="mt-5 text-center text-xs leading-relaxed text-[#4a5442]/60">
+        <p className="mt-5 text-center text-xs leading-relaxed text-ink/60">
           Yahan se aap apni website ka content khud edit kar sakte hain —
           videos, profile, contact sab kuch.
         </p>

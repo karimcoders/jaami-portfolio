@@ -35,8 +35,8 @@ function ContactIcon({ type }: { type: string }) {
     );
   }
   return (
-    <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#5f6d52] shadow-md">
-      <Globe className="h-5 w-5 text-[#eef3e5]" />
+    <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-olive-dark shadow-md">
+      <Globe className="h-5 w-5 text-mist" />
     </span>
   );
 }
@@ -52,7 +52,7 @@ export function ContactSection({
     <section
       id="contact"
       aria-label="Contact information"
-      className="relative overflow-hidden bg-[#778667] py-20 sm:py-24"
+      className="relative overflow-hidden bg-olive py-20 sm:py-24"
     >
       <div
         aria-hidden
@@ -69,7 +69,7 @@ export function ContactSection({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className="text-xs font-medium uppercase tracking-[0.4em] text-[#d9e6ca] sm:text-sm"
+          className="text-xs font-medium uppercase tracking-[0.4em] text-sage sm:text-sm"
         >
           ✦ Contact us
         </motion.p>
@@ -79,11 +79,11 @@ export function ContactSection({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.5, delay: 0.05, ease: "easeOut" }}
-          className="font-display font-wonk mt-4 text-[clamp(2.5rem,6.5vw,5.25rem)] leading-[0.95] tracking-tight text-[#eef3e5]"
+          className="font-display font-wonk mt-4 text-[clamp(2.5rem,6.5vw,5.25rem)] leading-[0.95] tracking-tight text-mist"
         >
           LET&apos;S WORK
           <br />
-          <span className="font-accent font-normal italic text-[#d9e6ca]">
+          <span className="font-accent font-normal italic text-sage">
             together
           </span>
         </motion.h2>
@@ -93,7 +93,7 @@ export function ContactSection({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
-          className="mt-5 max-w-xl text-base text-[#eef3e5]/85 sm:text-lg"
+          className="mt-5 max-w-xl text-base text-mist/85 sm:text-lg"
         >
           {intro}
         </motion.p>
@@ -115,7 +115,7 @@ export function ContactSection({
                 className="group flex w-fit items-center gap-5 rounded-2xl p-2 pr-6 transition-colors hover:bg-white/10"
               >
                 <ContactIcon type={item.type} />
-                <span className="font-accent text-[clamp(1.4rem,3.5vw,2.4rem)] italic leading-snug text-[#eef3e5] transition-transform duration-300 group-hover:translate-x-1">
+                <span className="font-accent text-[clamp(1.4rem,3.5vw,2.4rem)] italic leading-snug text-mist transition-transform duration-300 group-hover:translate-x-1">
                   {item.label}
                 </span>
               </motion.a>
@@ -127,14 +127,32 @@ export function ContactSection({
   );
 }
 
-export function Footer({ name, tagline }: { name: string; tagline: string }) {
+export function Footer({
+  name,
+  tagline,
+  logoUrl = "",
+  footerText = "",
+}: {
+  name: string;
+  tagline: string;
+  logoUrl?: string;
+  footerText?: string;
+}) {
   return (
-    <footer className="bg-[#5f6d52] py-6">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-4 text-center text-sm text-[#eef3e5]/75 sm:flex-row sm:px-6">
-        <p className="font-display font-wonk text-lg tracking-wide text-[#eef3e5]/90">
-          {name}
+    <footer className="bg-olive-dark py-6">
+      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-4 text-center text-sm text-mist/75 sm:flex-row sm:px-6">
+        {logoUrl ? (
+           
+          <img src={logoUrl} alt={`${name} logo`} className="h-8 w-auto max-w-32 object-contain" />
+        ) : (
+          <p className="font-display font-wonk text-lg tracking-wide text-mist/90">
+            {name}
+          </p>
+        )}
+        <p>
+          {footerText.trim() ||
+            `© ${new Date().getFullYear()} ${name} Visuals. All rights reserved.`}
         </p>
-        <p>© {new Date().getFullYear()} {name} Visuals. All rights reserved.</p>
         <p className="font-accent italic">{tagline} — Short &amp; Long Form</p>
       </div>
     </footer>
