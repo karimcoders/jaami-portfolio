@@ -9,6 +9,26 @@ import {
 } from "@/lib/track";
 
 const HEARTBEAT_INTERVAL_MS = 15_000;
+const DEDUPE_MS = 5_000;
+
+/** Skip re-recording the same path within DEDUPE_MS (React StrictMode
+ *  double-mounts effects in dev, which used to create duplicate views). */
+function isDuplicateView(path: string): boolean {
+  try {
+    const raw = sessionStorage.getItem("jaami_last_view");
+    if (raw) {
+      const { path: p, ts } = JSON.parse(raw) as { path: string; ts: number };
+      if (p === path && Date.now() - ts < DEDUPE_MS) return true;
+    }
+    sessionStorage.setItem(
+      "jaami_last_view",
+      JSON.stringify({ path, ts: Date.now() })
+    );
+  } catch {
+    /* private mode etc. — never block tracking */
+  }
+  return false;
+}
 
 /**
  * Mounts once in the root layout. Records a page view on every route
@@ -29,6 +49,7 @@ export function AnalyticsTracker() {
 
     // -- Record page view ------------------------------------------------
     const record = async () => {
+      if (isDuplicateView(pathname)) return;
       const res = await fetch("/api/track", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

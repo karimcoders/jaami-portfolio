@@ -3,7 +3,7 @@ import { z } from "zod";
 import { db } from "@/lib/db";
 import {
   cleanReferrer,
-  getClientIp,
+  getTrustedClientIp,
   isBot,
   lookupGeo,
   parseUserAgent,
@@ -70,7 +70,9 @@ export async function POST(req: NextRequest) {
         return new NextResponse(null, { status: 204 });
       }
 
-      const ip = getClientIp(req.headers);
+      // Trustworthy IP only — preview/sandbox proxies get "Unknown" geo
+      // instead of a wrong country caused by the proxy's own IP.
+      const ip = getTrustedClientIp(req.headers);
       const { device, browser, os } = parseUserAgent(ua);
       const geo = await lookupGeo(ip);
 

@@ -69,6 +69,27 @@ export function getClientIp(headers: Headers): string {
   );
 }
 
+/**
+ * Some sandbox/preview proxies terminate TLS on serverless gateways and do
+ * NOT forward the real visitor IP (e.g. Alibaba FC adds x-fc-* headers and
+ * an untrustworthy x-forwarded-for). Geo from such an IP would be a lie —
+ * better to report "Unknown" than a wrong country. On real deployments
+ * (Vercel, Render, VPS) these headers never exist, so real IPs flow through.
+ */
+export function isUntrustedProxyChain(headers: Headers): boolean {
+  return Boolean(
+    headers.get("x-fc-request-id") ||
+      headers.get("x-fc-function-name") ||
+      headers.get("x-fc-invocation-id")
+  );
+}
+
+/** Trusted client IP: "" when the request came through an anonymizing proxy. */
+export function getTrustedClientIp(headers: Headers): string {
+  if (isUntrustedProxyChain(headers)) return "";
+  return getClientIp(headers);
+}
+
 const PRIVATE_IP_RE =
   /^(127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|::1$|localhost$|0\.0\.0\.0$|fc00:|fe80:)/i;
 
