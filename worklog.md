@@ -130,3 +130,23 @@ Stage Summary:
 - Deliverable: WordPress-level editable site — Design tab (colors/fonts/logo/favicon/sections/SEO/footer) + Pages system (new pages with block editor, nav integration)
 - Repo: https://github.com/karimcoders/jaami-portfolio (public)
 - Client ab A-to-Z khud edit kar sakta hai — text, videos, contacts, colors, fonts, logo, favicon, new pages, sections on/off, SEO, footer
+
+---
+Task ID: 6
+Agent: Super Z (main)
+Task: GitHub push verify + analytics location bug fix + demo data cleanup
+
+Work Log:
+- Verified GitHub remote (karimcoders/jaami-portfolio) already configured; pushed pending commit 1950f90 + new commit 2abc2ce
+- Investigated "wrong location" bug: preview sandbox proxies requests through Alibaba FC serverless gateway which does NOT forward real visitor IP (x-fc-* headers present, x-fc-client-ip empty) → geo showed proxy's location (Whitehall, US)
+- Fix: added isUntrustedProxyChain() + getTrustedClientIp() in src/lib/analytics.ts; track route now uses trusted IP only → preview visits record "Unknown" geo instead of wrong country; real deployments (Vercel/VPS) get accurate geo
+- Fix: duplicate pageview rows (React StrictMode double-mount in dev) → added isDuplicateView() sessionStorage dedupe (5s window) in tracker.tsx
+- Verified via preview URL: geo now "Unknown" (was Whitehall US); verified real IP 49.36.181.191 → India/New Delhi + Instagram referrer detected correctly
+- Wiped all demo/test data: 21 PageView rows deleted; TrackEvent already 0; confirmed 0 rows after verification tests
+- Removed temporary /api/debug-headers route; lint clean; homepage/admin both 200
+- Confirmed WP-level CMS intact: settings:1, videos:14, design-form/pages-manager/upload API present
+
+Stage Summary:
+- GitHub repo up to date: https://github.com/karimcoders/jaami-portfolio (HEAD 2abc2ce)
+- Analytics geo honest: Unknown on sandbox proxy, accurate on real deploy
+- DB clean start for client: 0 analytics rows, 14 videos, settings intact
