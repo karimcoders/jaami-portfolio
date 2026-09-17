@@ -106,3 +106,27 @@ Stage Summary:
 - Track hota hai: kaun (device/browser/OS/IP→city+country), kab (timestamps + daily chart), kahan se (referrer sources), kya kar raha (video plays, contact clicks, CTA clicks, time spent)
 - Live visitors (5-min window), 30s auto-refresh, 24h/7d/30d/all filters
 - Bots production mein blocked; test data cleaned
+
+---
+Task ID: 6
+Agent: Super Z (main agent)
+Task: GitHub push (token se) + CMS ko WordPress jaisa 100% editable banana (logo, colors, fonts, design, new pages, sab kuch)
+
+Work Log:
+- GitHub: token verify kiya (karimcoders), existing jaami-portfolio repo pe force-push (71d8308 — v2: CMS + analytics), gitignore mein .env/db/uploads add kiye, db/custom.db untrack kiya
+- Prisma: SiteSettings mein logoUrl/faviconUrl/colorOlive/colorOliveDark/colorSage/colorMist/colorInk/colorCream/fontPreset/showMarquee/showStats/showShort/showLong/showContact/seoTitle/seoDescription/footerText fields + Page model (slug/blocks/showInNav/visible/sort) — db push done
+- globals.css: @theme tokens (olive/olive-dark/sage/mist/ink/cream/coal) — utilities vars reference karti hain; text-outline utilities color-mix se theme-follow
+- SED refactor: 13 files ke saare hardcoded hexes → theme utilities (bg-olive, text-ink, bg-sage...) — 0 leftovers, design pixel-identical
+- layout.tsx: DM Serif Display font added, generateMetadata DB se (SEO title/desc/favicon), getThemeCss() <style> injection body-first
+- cms.ts: getThemeCss (colors :root vars + .font-display/.font-accent overrides), getSeo, getNavPages, getPageBySlug; blocks.ts: zod block schema (heading/text/image/video/quote/button/divider), slug validation + reserved slugs
+- APIs: settings PUT (12 strings + 5 booleans + hex/font validation), pages POST/PUT/DELETE/reorder, admin data mein pages
+- Admin UI: Design tab (logo/favicon upload with preview, 6 color pickers, 4 font preset cards, 5 section switches, SEO + footer fields, sticky save bar), Pages tab (list/toggles/reorder/delete + block editor dialog with per-type inputs, image/video upload, add/move/delete blocks)
+- Public: navbar (logo ya text brand, section links + custom pages, isHome prop), footer (logo/footerText), page-blocks.tsx renderer (editorial styled), /[slug] route (hero band + blocks + notFound), home par section toggles
+- DEBUGGING: @theme inline font var override ko ignore karta tha — fix: injected CSS mein direct .font-display/.font-accent class overrides (verified: Poppins apply hua)
+- Browser tests PASSED: color olive→maroon (#a8443a) poori site live badli (heading/buttons/marquee/frame), font preset Modern → Poppins live, wapas reset; About Me page create → 3 blocks (heading/text/quote) add → /about-me render + navbar link; marquee toggle off → gone → on → back; page delete → /about-me 404; SEO title sahi; lint 0 errors; final state reset (defaults)
+- Final GitHub push: 8940b52
+
+Stage Summary:
+- Deliverable: WordPress-level editable site — Design tab (colors/fonts/logo/favicon/sections/SEO/footer) + Pages system (new pages with block editor, nav integration)
+- Repo: https://github.com/karimcoders/jaami-portfolio (public)
+- Client ab A-to-Z khud edit kar sakta hai — text, videos, contacts, colors, fonts, logo, favicon, new pages, sections on/off, SEO, footer
